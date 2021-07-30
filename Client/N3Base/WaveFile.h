@@ -15,7 +15,7 @@
 #define __WAVE_H_
 
 #include <Windows.h>
-#include "shared/types.h"
+#include "../Server/shared/types.h"
 
 #include <mmsystem.h>
 #include <mmreg.h>

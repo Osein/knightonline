@@ -44,6 +44,8 @@ ItemEditor/UI/
 ItemEditor/Object/
 ItemEditor/Debug/ItemEditor.lib
 ItemEditor/Release/ItemEditor.lib
+ItemEditor/Debug
+Client/WarFare/Debug
 *.o
 *.dSYM
 *.exp
@@ -52,3 +54,9 @@ Client/WarFare/Debug/gameprocmain.new.obj.enc
 Client/WarFare/Debug/gameprocmain.obj.enc
 Client/WarFare/Debug/Log.txt
 Client/dataxx/Chr/canon.n3anim
+Client/N3Base/Debug
+Server/scripting/Debug
+Server/shared/Debug
+Server/LoginServer/Debug
+Server/GameServer/Debug
+Server/AIServer/Debug

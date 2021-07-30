@@ -51,11 +51,20 @@ void _LoadStringFromResource(uint32_t dwID, std::string& szText)
 		szText = pText->szText;
 }
 
+struct Test {
+	uint32_t test;
+	std::string asd;
+};
+
 void CGameBase::StaticMemberInit()
 {
 	std::string szLangTail = "_us.tbl";
 	int iLangID = ::GetUserDefaultLangID();
 	if(0x0404 == iLangID) szLangTail = "_TW.tbl"; // Taiwan Language
+
+	CLogWriter::Write("test %d", sizeof(uint32_t));
+	CLogWriter::Write("test %d", sizeof(std::string));
+	CLogWriter::Write("test %d", sizeof(Test));
 
 	std::string szFN;
 	szFN = "Data\\Texts" + szLangTail;		s_pTbl_Texts.LoadFromFile(szFN.c_str());
