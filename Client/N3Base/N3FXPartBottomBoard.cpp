@@ -1,7 +1,7 @@
 // N3FXPartBottomBoard.cpp: implementation of the CN3FXPartBillBoard class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include "N3FXPartBottomBoard.h"
 #include "N3FXBundle.h"
 

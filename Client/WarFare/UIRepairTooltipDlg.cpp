@@ -1,8 +1,4 @@
-// UIRepairTooltipDlg.cpp: implementation of the UIRepairTooltipDlg class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "resource.h"
 #include "UIRepairTooltipDlg.h"
 

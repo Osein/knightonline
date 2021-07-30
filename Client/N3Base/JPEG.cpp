@@ -1,7 +1,4 @@
-// Jpeg.cpp: implementation of the CJpeg class.
-//
-//////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include <Windows.h>
 #include "shared/types.h"
 

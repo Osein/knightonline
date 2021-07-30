@@ -1,6 +1,7 @@
 // N3PMeshCreate.cpp: implementation of the CN3PMeshCreate class.
 //
 //////////////////////////////////////////////////////////////////////
+#include "pch.h"
 #include "N3PMeshCreate.h"
 #include "N3PMesh.h"
 #include "N3PMeshInstance.h"

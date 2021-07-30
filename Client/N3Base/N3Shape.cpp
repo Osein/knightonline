@@ -1,6 +1,7 @@
 // N3Shape.cpp: implementation of the C3DObject class.
 //
 //////////////////////////////////////////////////////////////////////
+#include "pch.h"
 #include "N3Shape.h"
 
 #ifdef _DEBUG

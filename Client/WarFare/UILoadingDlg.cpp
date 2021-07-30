@@ -1,8 +1,4 @@
-// UILoadingDlg.cpp: implementation of the UILoadingDlg class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "UILoadingDlg.h"
 #include "GameDef.h"
 #include "N3UIProgress.h"

@@ -1,8 +1,4 @@
-// UITradeList.cpp: implementation of the CUITradeList class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "resource.h"
 #include "UITradeList.h"
 

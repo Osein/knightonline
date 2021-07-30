@@ -1,7 +1,7 @@
 // N3Star.cpp: implementation of the CN3Star class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include "N3Star.h"
 
 #ifdef _DEBUG

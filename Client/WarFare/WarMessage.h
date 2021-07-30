@@ -1,13 +1,4 @@
-// WarMessage.h: interface for the CWarMessage class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_WARMESSAGE_H__F05854B5_6723_4F5C_BDAB_329F1939FEA6__INCLUDED_)
-#define AFX_WARMESSAGE_H__F05854B5_6723_4F5C_BDAB_329F1939FEA6__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 class CDFont;
 
@@ -20,12 +11,10 @@ private:
 public:
 	void Tick();
 	void	RenderMessage();
-	void	SetMessage(const std::string& szText, uint32_t dwFlags = D3DFONT_BOLD,uint32_t dwColor = 0xffffffff);
+	void	SetMessage(const std::string& szText, uint32_t dwFlags = 0x0001,uint32_t dwColor = 0xffffffff);
 	void	Release();
 	void	InitFont();
 	CWarMessage();
 	virtual ~CWarMessage();
 
 };
-
-#endif // !defined(AFX_WARMESSAGE_H__F05854B5_6723_4F5C_BDAB_329F1939FEA6__INCLUDED_)

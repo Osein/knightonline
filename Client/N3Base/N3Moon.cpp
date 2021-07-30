@@ -1,7 +1,7 @@
 // N3Moon.cpp: implementation of the CN3Moon class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include "N3Moon.h"
 #include "My_3DStruct.h"
 #include "N3Texture.h"

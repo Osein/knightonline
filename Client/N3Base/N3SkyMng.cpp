@@ -1,7 +1,7 @@
 // N3SkyMng.cpp: implementation of the CN3SkyMng class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include "N3SkyMng.h"
 #include "N3Sky.h"
 #include "N3Moon.h"

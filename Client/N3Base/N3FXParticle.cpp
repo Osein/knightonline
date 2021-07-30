@@ -1,7 +1,7 @@
 // N3FXParticle.cpp: implementation of the CN3FXParticle class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include "N3FXParticle.h"
 #include "N3FXPartParticles.h"
 

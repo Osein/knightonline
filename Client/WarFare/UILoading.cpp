@@ -1,8 +1,4 @@
-// UILoading.cpp: implementation of the UILoading class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "UILoading.h"
 #include "GameDef.h"
 #include "GameEng.h"

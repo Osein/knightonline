@@ -1,8 +1,4 @@
-// UITradeBBSSelector.cpp: implementation of the CUITradeBBSSelector class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "UITradeBBSSelector.h"
 #include "PacketDef.h"
 #include "APISocket.h"

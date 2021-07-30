@@ -1,8 +1,4 @@
-// UIStateBar.cpp: implementation of the CUIStateBar class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "GameDef.h"
 #include "UIStateBar.h"
 #include "GameProcedure.h"

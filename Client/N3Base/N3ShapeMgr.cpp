@@ -1,7 +1,7 @@
 // N3ShapeMgr.cpp: implementation of the CN3ShapeMgr class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #ifdef _N3GAME
 //#include "StdAfx.h"
 #include "..\WarFare\GameProcedure.h"

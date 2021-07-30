@@ -1,8 +1,4 @@
-// UIDead.cpp: implementation of the CUIDead class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "N3UITooltip.h"
 #include "N3UIString.h"
 #include "resource.h"

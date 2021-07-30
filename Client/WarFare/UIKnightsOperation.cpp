@@ -1,8 +1,4 @@
-// UIKnightsOperation.cpp: implementation of the CUIKnightsOperation class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "resource.h"
 #include "GameProcMain.h"
 #include "PacketDef.h"

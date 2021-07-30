@@ -1,8 +1,4 @@
-// UIMessageBoxManager.cpp: implementation of the CUIMessageBoxManager class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "UIMessageBoxManager.h"
 #include "GameProcedure.h"
 #include "UIManager.h"

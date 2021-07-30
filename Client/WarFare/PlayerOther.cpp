@@ -1,8 +1,4 @@
-// PlayerOther.cpp: implementation of the CPlayerOther class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "StdAfx.h"
+#include "pch.h"
 #include "resource.h"
 #include "GameProcedure.h"
 #include "PlayerOther.h"

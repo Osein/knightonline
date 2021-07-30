@@ -1,9 +1,4 @@
-// UIInventory.cpp: implementation of the CUIInventory class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
-
+#include "pch.h"
 #include "LogWriter.h"
 
 #include "PlayerMySelf.h"

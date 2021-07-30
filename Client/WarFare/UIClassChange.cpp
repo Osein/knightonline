@@ -1,8 +1,4 @@
-// UIClassChange.cpp: implementation of the CUIClassChange class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "resource.h"
 #include "UIClassChange.h"
 

@@ -1,7 +1,7 @@
 // N3Cloak.cpp: implementation of the CN3Cloak class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include "N3Cloak.h"
 #include "N3Texture.h"
 #include "N3PMeshInstance.h"

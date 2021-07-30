@@ -1,7 +1,7 @@
 // N3FXPlug.cpp: implementation of the CN3FXPlug class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include "N3FXPlug.h"
 #include "N3FXBundle.h"
 #include "N3Chr.h"

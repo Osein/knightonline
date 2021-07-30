@@ -1,8 +1,4 @@
-// PortalVolume.cpp: implementation of the CPortalVolume class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "PortalVolume.h"
 #include "GameBase.h"
 #include "PlayerMySelf.h"

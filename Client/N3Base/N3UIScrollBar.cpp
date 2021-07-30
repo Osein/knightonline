@@ -1,7 +1,7 @@
 // N3UIScrollBar.cpp: implementation of the CN3UIScrollBar class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include "N3UIScrollBar.h"
 #include "N3UIButton.h"
 

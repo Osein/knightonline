@@ -1,8 +1,4 @@
-// UITradeBBSEditDlg.cpp: implementation of the CUITradeBBSEditDlg class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "UITradeBBSEditDlg.h"
 #include "N3UIEdit.h"
 #include "N3UIButton.h"

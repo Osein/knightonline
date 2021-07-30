@@ -1,6 +1,7 @@
 // N3EngTool.cpp: implementation of the CN3EngTool class.
 //
 //////////////////////////////////////////////////////////////////////
+#include "pch.h"
 #include "N3Light.h"
 #include "N3EngTool.h"
 #include "N3Texture.h"

@@ -1,8 +1,4 @@
-// UITradeSellBBS.cpp: implementation of the CUITradeSellBBS class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "resource.h"
 #include "UITradeSellBBS.h"
 #include "N3UIList.h"

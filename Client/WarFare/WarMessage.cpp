@@ -1,8 +1,4 @@
-// WarMessage.cpp: implementation of the CWarMessage class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "resource.h"
 #include "DFont.h"
 #include "WarMessage.h"

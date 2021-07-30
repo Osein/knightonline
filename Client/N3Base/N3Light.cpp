@@ -1,7 +1,7 @@
 // N3Light.cpp: implementation of the CN3Light class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include "N3Light.h"
 
 #ifdef _DEBUG

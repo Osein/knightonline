@@ -1,9 +1,4 @@
-// UIWareHouseDlg.cpp: implementation of the UIWareHouseDlg class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
-
+#include "pch.h"
 #include "LogWriter.h"
 
 #include "PacketDef.h"

@@ -1,8 +1,4 @@
-// GameEng.cpp: implementation of the CGameEng class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "GameEng.h"
 #include "GameBase.h"
 #include "N3WorldManager.h"
@@ -17,9 +13,6 @@ static char THIS_FILE[]=__FILE__;
 
 const float LIGHTNING_DURATION = 2.0f;
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 CGameEng::CGameEng()
 {
 	m_pActiveCam	= NULL;

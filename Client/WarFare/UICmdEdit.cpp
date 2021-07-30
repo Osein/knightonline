@@ -1,8 +1,4 @@
-// UICmdEdit.cpp: implementation of the UINPCEvent class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "resource.h"
 #include "UICmdEdit.h"
 

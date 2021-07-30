@@ -1,7 +1,7 @@
 // N3FXPMesh.cpp: implementation of the CN3FXPMesh class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include "N3FXPMesh.h"
 #include "N3PMesh.h"
 

@@ -1,7 +1,4 @@
-// LogWriter.cpp: implementation of the CLogWriter class.
-//
-//////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include <stdio.h>
 #include "N3Base.h"
 #include "LogWriter.h"

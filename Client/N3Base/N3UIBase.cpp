@@ -1,7 +1,7 @@
 // N3UIBase.cpp: implementation of the CN3UIBase class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include "N3UIBase.h"
 
 #include <vector>

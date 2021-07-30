@@ -1,9 +1,4 @@
-// UISkillTreeDlg.cpp: implementation of the CUISkillTreeDlg class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
-
+#include "pch.h"
 #include "PacketDef.h"
 #include "LocalInput.h"
 #include "APISocket.h"

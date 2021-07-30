@@ -1,9 +1,4 @@
-// UITransactionDlg.cpp: implementation of the CUITransactionDlg class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
-
+#include "pch.h"
 #include "LogWriter.h"
 
 #include "PacketDef.h"

@@ -1,7 +1,7 @@
 // N3FXShape.cpp: implementation of the CN3FXShape class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include "N3FXShape.h"
 
 #ifdef _DEBUG

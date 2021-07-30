@@ -1,7 +1,7 @@
 // N3TerrainManager.cpp: implementation of the CN3TerrainManager class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 //#include "stdafx.h"
 
 #include "N3SkyMng.h"

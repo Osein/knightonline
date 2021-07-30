@@ -1,13 +1,4 @@
-// APISocket.h: interface for the CAPISocket class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_APISOCKET_H__31D58152_3B8D_4CBD_BEB9_6BE23C4F0FFB__INCLUDED_)
-#define AFX_APISOCKET_H__31D58152_3B8D_4CBD_BEB9_6BE23C4F0FFB__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "My_3DStruct.h"
 #include "N3Base.h"
@@ -17,9 +8,9 @@
 #include <string>
 
 #define WM_SOCKETMSG	(WM_USER+1)
-#define RECEIVE_BUF_SIZE	262144 // 최대 버퍼..
+#define RECEIVE_BUF_SIZE	262144
 
-#define _CRYPTION		// 암호화 사용
+#define _CRYPTION
 #ifdef _CRYPTION
 #include "shared/JvCryption.h"
 #endif
@@ -87,7 +78,7 @@ public:
 			if (sc) CopyMemory(pData+fc, m_pBuffer, sc);
 		}
 	}
-	int		GetOutData(uint8_t *pData) //HeadPos, 변화
+	int		GetOutData(uint8_t *pData)
 	{
 		int len = GetValidCount();
 		int fc, sc;
@@ -116,8 +107,7 @@ public:
 		if (m_iTailPos==m_iBufSize) m_iTailPos = 0;
 	}
 	uint8_t&	GetHeadData(){return m_pBuffer[m_iHeadPos];}
-	//1 Byte Operation;
-	//false : 모든데이터 다빠짐, TRUE: 정상적으로 진행중
+	//1 Byte Operation
 	BOOL	HeadIncrease(int increasement=1)
 	{
 		__ASSERT(increasement<=GetValidCount(),"1");
@@ -137,10 +127,9 @@ public:
 		return count;
 	}
 protected:
-	//over flow 먼저 점검한 후 IndexOverFlow 점검
 	BOOL	IsOverFlowCondition(int &len) {return (len >= m_iBufSize-GetValidCount()) ? TRUE: FALSE;}
 	BOOL	IsIndexOverFlow(int &len) {return (len+m_iTailPos>=m_iBufSize) ? TRUE:FALSE;}
-	void	BufferResize() //overflow condition 일때 size를 현재의 두배로 늘림
+	void	BufferResize()
 	{
 		int prevBufSize = m_iBufSize;
 		m_iBufSize <<= 1;
@@ -227,7 +216,7 @@ public:
 	int					m_iSendByteCount;
 	std::queue<Packet *> m_qRecvPkt;
 
-	BOOL	m_bEnableSend; // 보내기 가능..?
+	BOOL	m_bEnableSend;
 public:
 	int		Connect(HWND hWnd, const char* pszIP, uint32_t port);
 	void	Disconnect();
@@ -244,7 +233,7 @@ public:
 
 #ifdef _CRYPTION
 protected:
-	static BOOL			s_bCryptionFlag;			//0 : 비암호화 , 1 : 암호화
+	static BOOL			s_bCryptionFlag;
 	static CJvCryption	s_JvCrypt;
 	static uint32_t		s_wSendVal;
 	static uint32_t		s_wRcvVal;
@@ -280,5 +269,3 @@ public:
 	CAPISocket();
 	virtual ~CAPISocket();
 };
-
-#endif // !defined(AFX_APISOCKET_H__31D58152_3B8D_4CBD_BEB9_6BE23C4F0FFB__INCLUDED_)

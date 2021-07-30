@@ -1,6 +1,7 @@
 // N3MeshIndexed: implementation of the CN3IMesh class.
 //
 //////////////////////////////////////////////////////////////////////
+#include "pch.h"
 #include "N3IMesh.h"
 
 #ifdef _DEBUG

@@ -1,8 +1,4 @@
-// UICharacterSelect.cpp: implementation of the UICharacterSelect class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "resource.h"
 
 #include "GameProcCharacterSelect.h"

@@ -1,7 +1,7 @@
 // N3GERain.cpp: implementation of the CN3GERain class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include "N3GERain.h"
 
 #ifdef _DEBUG

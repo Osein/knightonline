@@ -1,6 +1,7 @@
 // N3River.cpp: implementation of the CN3River class.
 //
 //////////////////////////////////////////////////////////////////////
+#include "pch.h"
 #include "N3River.h"
 #include "N3Texture.h"
 

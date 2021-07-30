@@ -1,7 +1,7 @@
 // N3ColorChange.cpp: implementation of the CN3ColorChange class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include "N3ColorChange.h"
 
 #ifdef _DEBUG

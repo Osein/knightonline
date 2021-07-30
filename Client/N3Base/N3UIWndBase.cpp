@@ -1,7 +1,4 @@
-// N3UIWndBase.cpp: implementation of the CN3UIWndBase class.
-//
-//////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 //#include "stdafx.h"
 #include "..\WarFare\N3UIWndBase.h"
 

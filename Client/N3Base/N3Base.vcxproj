@@ -27,8 +27,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AVIPlayer.h" />
-    <ClInclude Include="BitMapFile.h" />
     <ClInclude Include="DFont.h" />
     <ClInclude Include="JPEG.H" />
     <ClInclude Include="LogWriter.h" />
@@ -124,7 +122,6 @@
     <ClInclude Include="WaveFile.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BitMapFile.cpp" />
     <ClCompile Include="DFont.cpp" />
     <ClCompile Include="JPEG.cpp" />
     <ClCompile Include="LogWriter.cpp" />
@@ -205,6 +202,7 @@
     <ClCompile Include="N3VMesh.cpp" />
     <ClCompile Include="N3WorldBase.cpp" />
     <ClCompile Include="N3WorldManager.cpp" />
+    <ClCompile Include="pch.cpp" />
     <ClCompile Include="Pick.cpp" />
     <ClCompile Include="WaveFile.cpp" />
   </ItemGroup>
@@ -294,12 +292,12 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>DIRECTINPUT_VERSION=0x0800;WIN32_LEAN_AND_MEAN;VC_EXTRALEAN;_N3GAME;_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\Server\;$(DXSDK_DIR)include\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>

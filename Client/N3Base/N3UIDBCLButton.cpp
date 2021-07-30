@@ -1,7 +1,7 @@
 // N3UIIcon.cpp: implementation of the CN3UIIcon class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 //#include "stdafx.h"
 #include "..\WarFare\N3UIDBCLButton.h"
 #include "..\WarFare\GameProcedure.h"

@@ -1,8 +1,4 @@
-// UIPartyOrForce.cpp: implementation of the CUIPartyOrForce class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "UIPartyOrForce.h"
 #include "GameProcMain.h"
 #include "PlayerOtherMgr.h"
@@ -12,16 +8,6 @@
 #include "N3UIImage.h"
 #include "N3UIArea.h"
 #include "UIManager.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CUIPartyOrForce::CUIPartyOrForce()
 {

@@ -1,6 +1,4 @@
-// DFont.cpp: implementation of the CDFont class.
-//
-//////////////////////////////////////////////////////////////////////
+#include "pch.h"
 #include <D3DX9.h>
 #include "DFont.h"
 
@@ -118,9 +116,7 @@ HRESULT CDFont::RestoreDeviceObjects()
 
 	m_iPrimitiveCount = 0;
 
-//	__ASSERT(NULL == s_hDC && NULL == m_hFont, "??");
-//	m_hDC = CreateCompatibleDC(NULL);
-	__ASSERT(NULL == m_hFont, "??");
+	__ASSERT(NULL == m_hFont, "m_hFont is null");
 
 	if( NULL==s_hDC )
 	{
@@ -156,9 +152,6 @@ HRESULT CDFont::RestoreDeviceObjects()
 		dwFVF = FVF_XYZCOLORT1;
 	}
 
-//    if( FAILED( hr = m_pd3dDevice->CreateVertexBuffer( iVBSize,
-//                                                     D3DUSAGE_WRITEONLY, 0,
-//                                                      D3DPOOL_MANAGED, &m_pVB ) ) )
     if( FAILED( hr = m_pd3dDevice->CreateVertexBuffer( iVBSize, 0, dwFVF, D3DPOOL_MANAGED, &m_pVB, NULL ) ) )
     {
         return hr;
@@ -1080,7 +1073,7 @@ void CDFont::AddToAlphaManager(uint32_t dwColor, float fDist, __Matrix44& mtxWor
 	if (NULL == m_pVB || 0 >= m_iPrimitiveCount) return;
 	SetFontColor(dwColor);
 	
-	__AlphaPrimitive* pAP = s_AlphaMgr.Add();
+	__AlphaPrimitive* pAP = CN3Base::s_AlphaMgr.Add();
 	if(NULL == pAP) return;
 
 	

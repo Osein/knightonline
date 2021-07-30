@@ -1,8 +1,4 @@
-// PvsMgr.cpp: implementation of the CPvsMgr class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "PvsMgr.h"
 #include "GameBase.h"
 #include "PlayerMySelf.h"

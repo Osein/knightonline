@@ -2,7 +2,7 @@
 // 2001.10.22.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 //#include "StdAfx.h"
 #include "..\WarFare\N3Terrain.h"
 #include "..\WarFare\N3TerrainPatch.h"

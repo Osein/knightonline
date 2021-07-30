@@ -1,7 +1,4 @@
-// N3WorldBase.cpp: implementation of the CN3WorldBase class.
-//
-//////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 //#include "stdafx.h"
 #include "..\WarFare\N3WorldBase.h"
 

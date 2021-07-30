@@ -1,8 +1,4 @@
-// UIHotKeyDlg.cpp: implementation of the CUIHotKeyDlg class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "resource.h"
 #include "UIHotKeyDlg.h"
 

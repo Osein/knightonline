@@ -1,7 +1,7 @@
 // N3FXPartBottomBoard.cpp: implementation of the CN3FXPartBottomBoard class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include "..\WarFare\GameProcedure.h"
 #include "..\WarFare\N3WorldManager.h"
 #include "..\WarFare\N3FXPartBottomBoardGame.h"

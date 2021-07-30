@@ -1,7 +1,4 @@
-/*
-*/
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "GameDef.h"
 #include "GameBase.h"
 #include "N3UIString.h"

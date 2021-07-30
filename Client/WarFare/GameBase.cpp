@@ -1,8 +1,4 @@
-// GameBase.cpp: implementation of the CGameBase class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "StdAfx.h"
+#include "pch.h"
 #include "resource.h"
 #include "GameBase.h"
 #include "N3WorldManager.h"
@@ -10,11 +6,6 @@
 #include "PlayerMySelf.h"
 
 #include "N3ShapeMgr.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#endif
 
 bool CGameBase::s_bRunning = false;
 

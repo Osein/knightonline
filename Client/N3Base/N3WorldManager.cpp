@@ -1,7 +1,4 @@
-// N3WorldManager.cpp: implementation of the CN3WorldManager class.
-//
-//////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 //#include "stdafx.h"
 //#include "resource.h"
 #include "..\WarFare\N3WorldManager.h"

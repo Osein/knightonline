@@ -1,7 +1,7 @@
 // N3UIEdit.cpp: implementation of the CN3UIEdit class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include "N3UIEdit.h"
 #include "N3UIString.h"
 #include "N3UIImage.h"

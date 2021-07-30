@@ -1,7 +1,7 @@
 // N3GlobalEffect.cpp: implementation of the CN3GlobalEffect class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include "N3GlobalEffect.h"
 
 #ifdef _DEBUG

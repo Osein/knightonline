@@ -1,8 +1,4 @@
-// UIMessageWnd.cpp: implementation of the CUIMessageWnd class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "GameProcMain.h"
 #include "PacketDef.h"
 #include "N3UIString.h"
@@ -14,6 +10,7 @@
 #undef THIS_FILE
 static char THIS_FILE[]=__FILE__;
 #endif
+#include <DFont.h>
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction

@@ -1,22 +1,8 @@
-// UINpcTalk.cpp: implementation of the CUINpcTalk class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "resource.h"
 #include "UINpcTalk.h"
 
 #include "GameProcMain.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CUINpcTalk::CUINpcTalk()
 {

@@ -1,8 +1,4 @@
-// UIPointInitDlg.cpp: implementation of the UIPointInitDlg class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "resource.h"
 #include "UIPointInitDlg.h"
 

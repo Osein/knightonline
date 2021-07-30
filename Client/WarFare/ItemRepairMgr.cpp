@@ -1,8 +1,4 @@
-// ItemRepairMgr.cpp: implementation of the CItemRepairMgr class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "resource.h"
 #include "ItemRepairMgr.h"
 

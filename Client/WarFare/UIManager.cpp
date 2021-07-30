@@ -1,8 +1,4 @@
-// UIManager.cpp: implementation of the CUIManager class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "LocalInput.h"
 #include "N3UIWndBase.h"
 #include "UIManager.h"
@@ -15,7 +11,7 @@
 #include "CountableItemEditDlg.h"
 #include "UIItemExchange.h"
 #include "UIWareHouseDlg.h"
-
+#include <DFont.h>
 #include "N3UITooltip.h"
 
 #ifdef _DEBUG

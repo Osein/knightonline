@@ -1,7 +1,7 @@
 // N3ShapeExtra.cpp: implementation of the CN3ShapeExtra class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include "N3ShapeExtra.h"
 
 #ifdef _DEBUG

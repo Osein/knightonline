@@ -1,8 +1,4 @@
-// UIEndingDisplay.cpp: implementation of the CUIEndingDisplay class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "UIEndingDisplay.h"
 #include "UIManager.h"
 #include "GameEng.h"

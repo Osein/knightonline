@@ -1,7 +1,7 @@
 // N3Cloud.cpp: implementation of the CN3Cloud class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include "N3Cloud.h"
 #include "N3Texture.h"
 

@@ -1,9 +1,5 @@
-// GameProcMain.cpp: implementation of the CGameProcMain class.
-//
-//////////////////////////////////////////////////////////////////////
+#include "pch.h"
 #include <io.h>
-
-//#include "stdafx.h"
 #include "resource.h"
 
 #include "GameEng.h"
@@ -78,6 +74,7 @@
 #undef THIS_FILE
 static char THIS_FILE[]=__FILE__;
 #endif
+#include <DFont.h>
 
 enum e_ChatCmd
 {

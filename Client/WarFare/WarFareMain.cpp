@@ -1,7 +1,4 @@
-/*
-*/
-
-//#include "StdAfx.h"
+#include "pch.h"
 #include "UIChat.h"
 #include "GameEng.h"
 #include "resource.h"

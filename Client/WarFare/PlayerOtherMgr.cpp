@@ -1,7 +1,4 @@
-// PlayerOtherMgr.cpp: implementation of the CPlayerOtherMgr class.
-//
-//////////////////////////////////////////////////////////////////////
-//#include "StdAfx.h"
+#include "pch.h"
 #include "DFont.h"
 #include "PlayerOtherMgr.h"
 

@@ -1,8 +1,4 @@
-// GameProcCharacterCreate.cpp: implementation of the CGameProcCharacterCreate class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "GameProcCharacterCreate.h"
 
 #include "resource.h"

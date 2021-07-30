@@ -1,8 +1,4 @@
-// UICreateClanName.cpp: implementation of the UINPCEvent class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "resource.h"
 #include "UICreateClanName.h"
 

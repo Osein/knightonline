@@ -1,8 +1,4 @@
-// UINPCChangeEvent.cpp: implementation of the CUINPCChangeEvent class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "resource.h"
 #include "UINPCChangeEvent.h"
 
@@ -17,16 +13,6 @@
 #include "N3UIWndBase.h"
 #include "UIInventory.h"
 #include "UIManager.h"
-
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CUINPCChangeEvent::CUINPCChangeEvent()
 {

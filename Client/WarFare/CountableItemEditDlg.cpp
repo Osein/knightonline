@@ -1,8 +1,4 @@
-// CountableItemEditDlg.cpp: implementation of the CCountableItemEditDlg class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "resource.h"
 #include "CountableItemEditDlg.h"
 
@@ -17,15 +13,6 @@
 #include "UIManager.h"
 
 #include "N3UIEdit.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CCountableItemEditDlg::CCountableItemEditDlg()
 {

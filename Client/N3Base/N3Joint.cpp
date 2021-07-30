@@ -1,6 +1,7 @@
 // N3Joint.cpp: implementation of the CN3Joint class.
 //
 //////////////////////////////////////////////////////////////////////
+#include "pch.h"
 #include "N3Joint.h"
 #include "N3Mesh.h"
 

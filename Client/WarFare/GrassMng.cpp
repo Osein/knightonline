@@ -1,8 +1,4 @@
-// Grass.cpp: implementation of the CGrassMng class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "GameProcMain.h"
 #include "N3WorldManager.h"
 #include "N3Terrain.h"

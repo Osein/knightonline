@@ -1,8 +1,4 @@
-// PlayerNPC.cpp: implementation of the CPlayerNPC class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "StdAfx.h"
+#include "pch.h"
 #include "PlayerNPC.h"
 #include "GameProcMain.h"
 #include "N3WorldManager.h"

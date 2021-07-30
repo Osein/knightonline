@@ -1,7 +1,4 @@
-// N3AlphaPrimitiveManager.cpp: implementation of the CN3AlphaPrimitiveManager class.
-//
-//////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include "N3AlphaPrimitiveManager.h"
 #include "N3Base.h"
 

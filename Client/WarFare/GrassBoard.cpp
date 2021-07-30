@@ -1,8 +1,4 @@
-// N3Board2DGrass.cpp: implementation of the CGrassBoard class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "StdAfx.h"
+#include "pch.h"
 #include "GrassBoard.h"
 #include "N3Terrain.h"
 #include "N3Texture.h"

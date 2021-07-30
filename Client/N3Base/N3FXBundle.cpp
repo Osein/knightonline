@@ -1,7 +1,7 @@
 // N3FXBundle.cpp: implementation of the CN3FXBundle class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include "N3FXBundle.h"
 #include "N3FXPartParticles.h"
 #include "N3FXPartBillBoard.h"

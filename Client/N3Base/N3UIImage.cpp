@@ -1,7 +1,7 @@
 // N3UIImage.cpp: implementation of the CN3UIImage class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include "N3UIImage.h"
 #include "N3Texture.h"
 

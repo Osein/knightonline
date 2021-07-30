@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef PCH_H
+#define PCH_H
+
 #define N3FORMAT_VER_UNKN 0x00000000
 #define N3FORMAT_VER_1068 0x00000001 // (1<<0)
 #define N3FORMAT_VER_1264 0x00000002 // (1<<1)
@@ -10,4 +13,11 @@
 
 static const int N3FORMAT_VER_DEFAULT = N3FORMAT_VER_1264;//N3FORMAT_VER_1068;
 
+#include <d3dx9.h>
+#include <DxErr.h>
+#include <Windows.h>
+
+#include <iostream>
 #include <string>
+
+#endif //PCH_H

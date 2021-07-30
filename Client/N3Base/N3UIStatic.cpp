@@ -1,7 +1,4 @@
-// N3UIStatic.cpp: implementation of the CN3UIStatic class.
-//
-//////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include "N3UIStatic.h"
 #include "N3UIString.h"
 #include "N3UIImage.h"

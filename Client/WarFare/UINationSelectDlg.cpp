@@ -1,8 +1,4 @@
-// UINationSelectDlg.cpp: implementation of the CUINationSelectDlg class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "UINationSelectDlg.h"
 #include "GameProcNationSelect.h"
 

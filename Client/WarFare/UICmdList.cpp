@@ -1,8 +1,4 @@
-// UICmdList.cpp: implementation of the CUICmdList class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "resource.h"
 #include "GameDef.h"
 #include "UICmdList.h"

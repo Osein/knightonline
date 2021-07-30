@@ -1,20 +1,6 @@
-// DungeonManager.cpp: implementation of the CDungeonManager class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "DungeonManager.h"
-
 #include "PlayerMySelf.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CDungeonManager::CDungeonManager()
 {
@@ -25,8 +11,6 @@ CDungeonManager::~CDungeonManager()
 {
 
 }
-
-//////////////////////////////////////////////////////////////////////
 
 void CDungeonManager::InitWorld(int iZoneID, const __Vector3& vPosPlayer)
 {

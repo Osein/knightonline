@@ -1,8 +1,4 @@
-// UIWarp.cpp: implementation of the UIWarp class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "resource.h"
 
 #include "UIWarp.h"

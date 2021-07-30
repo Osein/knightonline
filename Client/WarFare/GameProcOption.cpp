@@ -1,8 +1,4 @@
-// GameProcOption.cpp: implementation of the CGameProcOption class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "GameProcOption.h"
 
 #ifdef _DEBUG

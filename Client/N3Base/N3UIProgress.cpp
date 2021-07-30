@@ -1,7 +1,7 @@
 // CN3UIProgress.cpp: implementation of the CN3UIProgress class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include "N3UIImage.h"
 #include "N3UIProgress.h"
 

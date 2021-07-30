@@ -1,7 +1,4 @@
-// N3UITrackBar.cpp: implementation of the CN3UITrackBar class.
-//
-//////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include "N3UITrackBar.h"
 #include "N3UIImage.h"
 

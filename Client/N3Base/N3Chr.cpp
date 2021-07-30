@@ -1,6 +1,7 @@
 // N3Chr.cpp: implementation of the CN3Chr class.
 //
 //////////////////////////////////////////////////////////////////////
+#include "pch.h"
 #include "N3SndObj.h"
 #include "N3Chr.h"
 #include "N3SkyMng.h"

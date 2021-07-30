@@ -1,9 +1,4 @@
-// UIPerTradeDlg.cpp: implementation of the CUIPerTradeDlg class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
-
+#include "pch.h"
 #include "PacketDef.h"
 #include "LocalInput.h"
 #include "APISocket.h"
@@ -23,17 +18,7 @@
 #include "N3UIEdit.h"
 #include "N3SndObj.h"
 
-
 #include "resource.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CUIPerTradeDlg::CUIPerTradeDlg()
 {

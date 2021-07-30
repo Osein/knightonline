@@ -1,8 +1,4 @@
-// UILogIn.cpp: implementation of the CUILogIn class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "resource.h"
 #include "UILogIn.h"
 #include "GameProcLogIn.h"

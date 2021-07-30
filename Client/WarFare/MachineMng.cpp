@@ -1,8 +1,4 @@
-// MachineMng.cpp: implementation of the CMachineMng class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "StdAfx.h"
+#include "pch.h"
 #include "MachineBase.h"
 #include "Catapult.h"
 #include "MachineMng.h"

@@ -1,8 +1,4 @@
-// SubProcPerTrade.cpp: implementation of the CSubProcPerTrade class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "resource.h"
 
 #include "SubProcPerTrade.h"

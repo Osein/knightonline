@@ -1,8 +1,4 @@
-// UIItemExchange.cpp: implementation of the CUIItemRepairExchange class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "resource.h"
 #include "UIItemExchange.h"
 

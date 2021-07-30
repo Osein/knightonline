@@ -1,8 +1,4 @@
-// UIPartyBBS.cpp: implementation of the CUIPartyBBS class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "resource.h"
 #include "UIPartyBBS.h"
 #include "GameProcMain.h"
@@ -16,17 +12,8 @@
 #include "N3UIString.h"
 #include "N3UIButton.h"
 
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
 #define PARTY_BBS_MAXSTRING	69
 #define PARTY_BBS_MAXLINE	23
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 CUIPartyBBS::CUIPartyBBS()
 {

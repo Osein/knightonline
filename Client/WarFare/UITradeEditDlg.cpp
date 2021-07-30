@@ -1,8 +1,4 @@
-// UITradeEditDlg.cpp: implementation of the CUITradeEditDlg class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "resource.h"
 
 #include "PacketDef.h"

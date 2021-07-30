@@ -1,9 +1,4 @@
-// GameProcNationSelect.cpp: implementation of the CGameProcNationSelect class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
-
+#include "pch.h"
 #include "PacketDef.h"
 #include "GameEng.h"
 #include "APISocket.h"

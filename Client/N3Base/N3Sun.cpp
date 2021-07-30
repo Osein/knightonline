@@ -1,7 +1,7 @@
 // N3Sun.cpp: implementation of the CN3Sun class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include "N3Sun.h"
 #include "N3Texture.h"
 

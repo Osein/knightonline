@@ -1,7 +1,7 @@
 // N3SndObj.cpp: implementation of the CN3SndObj class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include "N3SndObj.h"
 #include "N3Base.h"
 #include <math.h>

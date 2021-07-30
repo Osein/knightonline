@@ -1,8 +1,4 @@
-// GameProcLogIn.cpp: implementation of the CGameProcLogIn class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "resource.h"
 #include "GameEng.h"
 #include "GameProcLogIn.h"

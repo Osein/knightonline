@@ -1,8 +1,4 @@
-// UICharacterCreate.cpp: implementation of the CUICharacterCreate class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "resource.h"
 #include "UICharacterCreate.h"
 #include "GameProcCharacterCreate.h"

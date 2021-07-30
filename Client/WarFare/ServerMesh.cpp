@@ -1,9 +1,4 @@
-// ServerMesh.cpp: implementation of the CServerMesh class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
-
+#include "pch.h"
 #include "ServerMesh.h"
 #include "N3Terrain.h"
 

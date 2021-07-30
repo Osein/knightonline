@@ -1,6 +1,4 @@
-// N3VMesh.cpp: implementation of the C3DObject class.
-//
-//////////////////////////////////////////////////////////////////////
+#include "pch.h"
 #include "N3VMesh.h"
 #include "N3IMesh.h"
 

@@ -1,8 +1,4 @@
-// MachineBase.cpp: implementation of the CMachineBase class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "StdAfx.h"
+#include "pch.h"
 #include "MachineBase.h"
 #include "N3Terrain.h"
 

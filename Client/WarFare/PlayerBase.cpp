@@ -1,8 +1,4 @@
-// CPlayerBase.cpp: implementation of the CPlayerBase class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "PlayerBase.h"
 #include "DFont.h"
 

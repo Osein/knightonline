@@ -1,8 +1,4 @@
-// GameProcCharacterSelect.cpp: implementation of the CGameProcCharacterSelect class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "GameProcCharacterSelect.h"
 
 #include "resource.h"

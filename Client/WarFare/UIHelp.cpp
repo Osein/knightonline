@@ -1,8 +1,4 @@
-// UIHelp.cpp: implementation of the CUIHelp class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "UIHelp.h"
 #include "GameProcedure.h"
 #include "UIManager.h"

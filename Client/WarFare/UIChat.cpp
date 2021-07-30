@@ -1,8 +1,4 @@
-// UIChat.cpp: implementation of the CUIChat class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "UIChat.h"
 #include "PacketDef.h"
 #include "GameProcMain.h"
@@ -17,6 +13,7 @@
 #undef THIS_FILE
 static char THIS_FILE[]=__FILE__;
 #endif
+#include <DFont.h>
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction

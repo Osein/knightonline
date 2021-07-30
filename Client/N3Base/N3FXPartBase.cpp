@@ -1,7 +1,7 @@
 // N3FXPartBase.cpp: implementation of the CN3EffectPartBase class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include "N3FXPartBase.h"
 #include "N3FXBundle.h"
 

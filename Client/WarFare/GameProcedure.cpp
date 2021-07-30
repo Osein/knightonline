@@ -1,8 +1,4 @@
-// GameProcedure.cpp: implementation of the CGameProcedure class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "resource.h"
 
 #include "GameDef.h"
@@ -18,7 +14,6 @@
 #include "PlayerMyself.h"
 #include "GameProcedure.h"
 #include "GameProcLogIn.h"
-//#include "GameProcStart.h"
 #include "GameProcNationSelect.h"
 #include "GameProcCharacterCreate.h"
 #include "GameProcCharacterSelect.h"
@@ -39,7 +34,6 @@
 #include "N3SndObjStream.h"
 #include "N3FXBundle.h"
 
-#include "BitmapFile.h"
 #include "Jpeg.h"
 #include "JpegFile.h"
 

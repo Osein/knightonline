@@ -1,8 +1,4 @@
-// LightMgr.cpp: implementation of the CLightMgr class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "LightMgr.h"
 
 #ifdef _DEBUG

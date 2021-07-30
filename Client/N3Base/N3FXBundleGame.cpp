@@ -1,7 +1,7 @@
 // N3FXBundleGame.cpp: implementation of the CN3FXBundleGame class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include "..\WarFare\N3FXBundleGame.h"
 #include "..\WarFare\GameProcMain.h"
 #include "..\WarFare\PlayerBase.h"

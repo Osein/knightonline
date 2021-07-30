@@ -1,13 +1,8 @@
-// UICmd.cpp: implementation of the CUICmd class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "resource.h"
 #include "UICmd.h"
 #include "GameProcMain.h"
 #include "PlayerOtherMgr.h"
-//#include "GameProcLogIn.h"
 #include "PlayerMyself.h"
 #include "UITransactionDlg.h"
 #include "N3UIButton.h"

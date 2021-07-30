@@ -1,8 +1,4 @@
-// UIMessageBox.cpp: implementation of the CUIMessageBox class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "UIMessageBox.h"
 #include "GameProcMain.h"
 #include "PlayerMySelf.h"

@@ -1,6 +1,7 @@
 // N3Camera.cpp: implementation of the CN3Camera class.
 //
 //////////////////////////////////////////////////////////////////////
+#include "pch.h"
 #include "N3Camera.h"
 
 #ifdef _DEBUG

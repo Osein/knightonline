@@ -1,6 +1,7 @@
 // N3Texture.cpp: implementation of the CN3Texture class.
 //
 //////////////////////////////////////////////////////////////////////
+#include "pch.h"
 #include "N3Texture.h"
 
 #ifdef _N3TOOL
@@ -129,26 +130,10 @@ bool CN3Texture::Create(int nWidth, int nHeight, D3DFORMAT Format, BOOL bGenerat
 	return true;
 }
 
-#ifdef _N3TOOL
-bool CN3Texture::CreateFromSurface(LPDIRECT3DSURFACE9 lpSurf, D3DFORMAT Format, BOOL bGenerateMipMap)
-{
-	if(lpSurf == NULL) return false;
-
-	D3DSURFACE_DESC sd;
-	lpSurf->GetDesc(&sd);
-
-	if(this->Create(sd.Width, sd.Height, Format, bGenerateMipMap) == false) return false;
-	if(bGenerateMipMap)
-	{
-		this->GenerateMipMap(lpSurf);
-	}
-	
-	return true;
-}
-#endif // end of _N3TOOL
-
 bool CN3Texture::LoadFromFile(const std::string& szFileName, uint32_t iVer)
 {
+	m_iFileFormatVersion = iVer;
+
 	if(m_lpTexture != NULL) this->Release();
 
 	m_szFileName = szFileName;
@@ -240,6 +225,13 @@ bool CN3Texture::LoadFromFile(const std::string& szFileName, uint32_t iVer)
 bool CN3Texture::Load(HANDLE hFile)
 {
 	DWORD dwRWC = 0;
+	int nL = 0;
+	ReadFile(hFile, &nL, 4, &dwRWC, NULL);
+	if (nL > 0)
+	{
+		std::vector<char> buffer(nL + 1, NULL);
+		ReadFile(hFile, &buffer[0], nL, &dwRWC, NULL);
+	}
 
 	__DXT_HEADER HeaderOrg; // 헤더를 저장해 놓고..
 	ReadFile(hFile, &HeaderOrg, sizeof(HeaderOrg), &dwRWC, NULL); // 헤더를 읽는다..

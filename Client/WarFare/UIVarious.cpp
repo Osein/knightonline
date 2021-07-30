@@ -1,8 +1,4 @@
-// UIState.cpp: implementation of the CUIState class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "resource.h"
 #include "UIVarious.h"
 #include "GameProcMain.h"

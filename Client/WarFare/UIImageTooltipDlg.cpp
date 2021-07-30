@@ -1,8 +1,4 @@
-// UIImageTooltipDlg.cpp: implementation of the CUIImageTooltipDlg class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "stdafx.h"
+#include "pch.h"
 #include "resource.h"
 #include "UIImageTooltipDlg.h"
 

@@ -1,8 +1,4 @@
-// PlayerMgr.cpp: implementation of the CPlayerMySelf class.
-//
-//////////////////////////////////////////////////////////////////////
-
-//#include "StdAfx.h"
+#include "pch.h"
 #include "PlayerMySelf.h"
 
 #include "resource.h"

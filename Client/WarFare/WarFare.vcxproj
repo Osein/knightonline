@@ -89,13 +89,13 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>DIRECTINPUT_VERSION=0x0800;WIN32_LEAN_AND_MEAN;VC_EXTRALEAN;_WINSOCK_DEPRECATED_NO_WARNINGS;_N3GAME;_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\include\;..\N3Base\;..\..\Server\;$(DXSDK_DIR)include\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -188,6 +188,7 @@
     <ClCompile Include="MachineMng.cpp" />
     <ClCompile Include="MagicSkillMng.cpp" />
     <ClCompile Include="OrderMessage.cpp" />
+    <ClCompile Include="pch.cpp" />
     <ClCompile Include="PlayerBase.cpp" />
     <ClCompile Include="PlayerMySelf.cpp" />
     <ClCompile Include="PlayerNPC.cpp" />
@@ -274,6 +275,7 @@
     <ClInclude Include="GrassBoard.h" />
     <ClInclude Include="GrassMng.h" />
     <ClInclude Include="IMouseWheelInputDlg.h" />
+    <ClInclude Include="pch.h" />
     <ClInclude Include="UICmdEdit.h" />
     <ClInclude Include="UICmdList.h" />
     <ClInclude Include="ItemRepairMgr.h" />

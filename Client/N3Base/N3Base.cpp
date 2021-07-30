@@ -1,7 +1,7 @@
 // N3Base.cpp: implementation of the CN3Base class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include "N3Mesh.h"
 #include "N3VMesh.h"
 #include "N3PMesh.h"

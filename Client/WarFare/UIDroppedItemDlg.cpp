@@ -1,8 +1,4 @@
-// UIDroppedItemDlg.cpp: implementation of the UIDroppedItemDlg class.
-//
-//////////////////////////////////////////////////////////////////////
-//#include "stdafx.h"
-
+#include "pch.h"
 #include "UIDroppedItemDlg.h"
 
 #include "PacketDef.h"

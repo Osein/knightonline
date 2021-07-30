@@ -1,7 +1,7 @@
 // N3FXPartMesh.cpp: implementation of the CN3FXPartMesh class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include "N3FXBundle.h"
 #include "N3FXShape.h"
 #include "N3FXPartMesh.h"
