@@ -302,6 +302,7 @@ bool CN3Eng::Init(BOOL bWindowed, SDL_Window* pWindow, uint32_t dwWidth, uint32_
 #ifdef _N3GAME
 		CLogWriter::Write("Can't create D3D - Invalid display mode property.");
 #endif
+
 		this->Release();
 		return false;
 	}

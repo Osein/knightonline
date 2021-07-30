@@ -1,7 +1,7 @@
 // BitMapFile.cpp: implementation of the CBitMapFile class.
 //
 //////////////////////////////////////////////////////////////////////
-
+#include "pch.h"
 #include <Windows.h>
 #include "shared/types.h"
 #include <string>

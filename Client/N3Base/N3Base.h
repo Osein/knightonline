@@ -189,6 +189,7 @@ public:
 	static CN3AlphaPrimitiveManager	s_AlphaMgr; // Alpha blend 할 폴리곤들을 관리.. 추가했다가.. 카메라 거리에 맟추어 정렬하고 한꺼번에 그린다..
 
 	static CN3Mng<class CN3Texture>		s_MngTex; // Texture Manager
+
 	static CN3Mng<class CN3Mesh>		s_MngMesh; // Normal Mesh Manager
 	static CN3Mng<class CN3VMesh>		s_MngVMesh; // 단순히 폴리곤만 갖고 있는 메시 - 주로 충돌 체크에 쓴다..
 	static CN3Mng<class CN3PMesh>		s_MngPMesh; // Progressive Mesh Manager
