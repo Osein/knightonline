@@ -47,6 +47,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>..\bin\$(Configuration)\</OutDir>
+    <LibraryPath>$(MARIADB_CONNECTOR_X86_PATH);$(LibraryPath)</LibraryPath>
+    <ExternalIncludePath>$(MARIADB_CONNECTOR_X86_PATH)\include;C:\Users\Osein\bin\vcpkg\packages\eabase_x86-windows\include\Common;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>..\bin\$(Configuration)\</OutDir>
@@ -110,7 +112,6 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32_LEAN_AND_MEAN;VC_EXTRALEAN;_WINSOCK_DEPRECATED_NO_WARNINGS;WIN32;LOGIN_SERVER;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -128,7 +129,7 @@
       <Culture>0x0412</Culture>
     </ResourceCompile>
     <Link>
-      <AdditionalDependencies>ws2_32.lib;../shared/$(Configuration)/shared.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>mariadbcpp.lib;ws2_32.lib;../shared/$(Configuration)/shared.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>NotSet</SubSystem>

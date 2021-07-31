@@ -285,16 +285,15 @@ bool CN3Texture::Load(HANDLE hFile)
 
 	D3DSURFACE_DESC sd;
 	D3DLOCKED_RECT LR;
-	int iMMC = m_lpTexture->GetLevelCount(); // 생성한 MipMap 수
+	int iMMC = m_lpTexture->GetLevelCount();
 
-	// 압축 포맷이면..
 	if(	D3DFMT_DXT1 == HeaderOrg.Format || 
 		D3DFMT_DXT2 == HeaderOrg.Format || 
 		D3DFMT_DXT3 == HeaderOrg.Format || 
 		D3DFMT_DXT4 == HeaderOrg.Format || 
 		D3DFMT_DXT5 == HeaderOrg.Format )
 	{
-		if(TRUE == bDXTSupport) // 압축 텍스처 지원이면..
+		if(TRUE == bDXTSupport)
 		{
 			if(iMMC > 1)
 			{

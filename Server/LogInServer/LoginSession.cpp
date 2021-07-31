@@ -48,7 +48,7 @@ void LoginSession::HandlePatches(Packet & pkt)
 	{
 		auto pInfo = itr->second;
 		if (pInfo->sVersion > version)
-			downloadset.insert(pInfo->strFilename);
+			downloadset.insert(pInfo->strFileUrl);
 	}
 
 	result << g_pMain->GetFTPUrl() << g_pMain->GetFTPPath();

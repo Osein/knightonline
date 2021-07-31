@@ -1,15 +1,4 @@
-// N3UIBase.h: interface for the CN3UIBase class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_N3UI_H__5F1578F8_8476_4647_8C53_E22A5F6184FE__INCLUDED_)
-#define AFX_N3UI_H__5F1578F8_8476_4647_8C53_E22A5F6184FE__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
-
-#pragma warning(disable : 4786)
 
 #include "N3BaseFileAccess.h"
 #include "N3UIDef.h"
@@ -54,9 +43,9 @@ public:
 	const std::string GetID() const {return m_szID;}
 	void		SetTooltipText(LPCTSTR pszTT) {m_szToolTip = pszTT;}
 
-	static CN3UITooltip*	s_pTooltipCtrl;		// tool tip
+	static CN3UITooltip* s_pTooltipCtrl;		// tool tip
 	
-	CN3UIBase*	m_pChildUI;		// UI 부속이 아니라 다른 UI를 자식으로 갖는다..
+	CN3UIBase*	m_pChildUI;
 	CN3UIBase*	m_pParentUI;
 
 protected:
@@ -73,11 +62,11 @@ protected:
 	RECT		m_rcRegion;		// UI - screen coordinates (screen : main window client area) 중의 : 부모에 대한 상대좌표가 아니다.
 	RECT		m_rcMovable;	// UI를 드래그 하여 움직이게 할 수 있는 영역 - (screen : main window client area)           ~~~~~~~
 
-	bool		m_bVisible;		// 화면에 보이는가 (부모가 보이지 않으면 자식들은 render 하지 않는다.)
-	CN3SndObj*	m_pSnd_OpenUI;	// UI가 화면에 보이는 순간 내는 소리
-	CN3SndObj*	m_pSnd_CloseUI;	// UI가 화면에서 사라지는 순간 내는 소리
+	bool		m_bVisible;
+	CN3SndObj*	m_pSnd_OpenUI;
+	CN3SndObj*	m_pSnd_CloseUI;
 
-	static CN3UIEdit*		s_pFocusedEdit;		// 현재 포커스를 가지고 있는 Edit, NULL이면 아무도 포커스를 가지고 있지 않다.
+	static CN3UIEdit* s_pFocusedEdit;
 	
 public:
 	CN3UIBase();
@@ -147,35 +136,4 @@ public:
 	}
 	virtual void	operator = (const CN3UIBase& other);
 
-protected:
-
-#ifdef _N3TOOL
-public:
-	virtual bool	Save(HANDLE hFile);
-	virtual void	ChangeImagePath(const std::string& szPathOld, const std::string& szPathNew);
-	virtual void	ChangeFont(const std::string& szFont);
-	virtual void	GatherImageFileName(std::set<std::string>& setImgFile);
-	
-	void			ResizeAutomaticalyByChild();
-	int				IsMyChild(CN3UIBase* pUI);
-	bool			SwapChild(CN3UIBase* pChild1, CN3UIBase* pChild2);
-	
-	bool			MoveToLower(CN3UIBase* pChild);
-	bool			MoveToUpper(CN3UIBase* pChild);
-	bool			MoveToLowest(CN3UIBase* pChild);
-	bool			MoveToHighest(CN3UIBase* pChild);
-	
-	void			ArrangeZOrder();
-	RECT			GetMoveRect() const {return m_rcMovable;}
-	//void			SetMoveRect(RECT rc) {m_rcMovable = rc;}
-	void			SetSndOpen(const std::string& strFileName);
-	void			SetSndClose(const std::string& strFileName);
-	std::string		GetSndFName_OpenUI() const;
-	std::string		GetSndFName_CloseUI() const;
-
-	virtual bool	ReplaceAllTextures(const std::string& strFind, const std::string& strReplace);
-#endif
 };
-
-
-#endif // !defined(AFX_N3UI_H__5F1578F8_8476_4647_8C53_E22A5F6184FE__INCLUDED_)

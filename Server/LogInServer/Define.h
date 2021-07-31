@@ -34,6 +34,5 @@ struct News
 struct _VERSION_INFO
 {
 	uint16_t sVersion;
-	uint16_t sHistoryVersion;
-	std::string strFilename;
+	std::string strFileUrl;
 };

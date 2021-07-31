@@ -15,4 +15,6 @@ public:
 
 private:
 	OdbcConnection m_dbConnection;
+	eastl::unique_ptr<sql::Driver> m_dbDriver;
+	eastl::unique_ptr<sql::Connection> m_mdbConnection;
 };

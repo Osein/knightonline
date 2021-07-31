@@ -2,6 +2,10 @@
 
 bool CDBProcess::Connect(string & szDSN, string & szUser, string & szPass)
 {
+	m_dbDriver = eastl::unique_ptr<sql::Driver>(sql::mariadb::get_driver_instance());
+	m_mdbConnection = eastl::unique_ptr<sql::Connection>(m_dbDriver->connect("localhost", "root", "123456"));
+	m_mdbConnection->setSchema("knight_online");
+
 	if (!m_dbConnection.Connect(szDSN, szUser, szPass))
 	{
 		g_pMain->ReportSQLError(m_dbConnection.GetError());
@@ -13,34 +17,22 @@ bool CDBProcess::Connect(string & szDSN, string & szUser, string & szPass)
 
 bool CDBProcess::LoadVersionList()
 {
-	unique_ptr<OdbcCommand> dbCommand(m_dbConnection.CreateCommand());
-	if (dbCommand.get() == nullptr)
-		return false;
+	std::unique_ptr< sql::Statement > stmt(m_mdbConnection->createStatement());
+	std::unique_ptr< sql::ResultSet > res(stmt->executeQuery("SELECT version, fileUrl FROM versions"));
 
-	if (!dbCommand->Execute(_T("SELECT sVersion, sHistoryVersion, strFilename FROM VERSION")))
-	{
-		g_pMain->ReportSQLError(m_dbConnection.GetError());
-		return false;
+	while (res->next()) {
+		_VERSION_INFO* pVersion = new _VERSION_INFO;
+		pVersion->sVersion = res->getUInt("version");
+		pVersion->strFileUrl = res->getString("fileUrl");
+
+		g_pMain->m_VersionList.insert(make_pair(pVersion->strFileUrl, pVersion));
+
+		if (g_pMain->m_sLastVersion < pVersion->sVersion)
+			g_pMain->m_sLastVersion = pVersion->sVersion;
 	}
 
-	if (dbCommand->hasData())
-	{
-		g_pMain->m_sLastVersion = 0;
-		do
-		{
-			_VERSION_INFO *pVersion = new _VERSION_INFO;
-
-			dbCommand->FetchUInt16(1, pVersion->sVersion);
-			dbCommand->FetchUInt16(2, pVersion->sHistoryVersion);
-			dbCommand->FetchString(3, pVersion->strFilename);
-
-			g_pMain->m_VersionList.insert(make_pair(pVersion->strFilename, pVersion));
-
-			if (g_pMain->m_sLastVersion < pVersion->sVersion)
-				g_pMain->m_sLastVersion = pVersion->sVersion;
-
-		} while (dbCommand->MoveNext());
-	}
+	res.release();
+	stmt.release();
 
 	return true;
 }

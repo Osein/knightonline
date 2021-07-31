@@ -27,66 +27,6 @@ void KOSocket::OnConnect()
 	m_lastResponse = UNIXTIME;
 }
 
-/*
-typedef struct
-{
-	int x;
-	int y;
-	uint8_t m[256];
-}
-arc4_context;
-
-void arc4_setup(arc4_context *ctx, uint8_t *key, int keylen)
-{
-	int i, j, k, a;
-	uint8_t *m;
-
-	ctx->x = 0;
-	ctx->y = 0;
-	m = ctx->m;
-
-	for(i = 0; i < 256; i++)
-		m[i] = (uint8_t)i;
-
-	j = k = 0;
-
-	for(i = 0; i < 256; i++, k++)
-	{
-		if(k >= keylen) k = 0;
-
-		a = m[i];
-		j = (j + a + key[k]) & 0xFF;
-		m[i] = m[j];
-		m[j] = (uint8_t)a;
-	}
-}
-
-void arc4_crypt(arc4_context *ctx, uint8_t *buf, int buflen)
-{
-	int i, x, y, a, b;
-	uint8_t *m;
-
-	x = ctx->x;
-	y = ctx->y;
-	m = ctx->m;
-
-	for(i = 0; i < buflen; i++)
-	{
-		x = (x + 1) & 0xFF; a = m[x];
-		y = (y + a) & 0xFF; b = m[y];
-
-		m[x] = (uint8_t)b;
-		m[y] = (uint8_t)a;
-
-		buf[i] = (uint8_t)
-			(buf[i] ^ m[(uint8_t)(a + b)]);
-	}
-
-	ctx->x = x;
-	ctx->y = y;
-}
-*/
-
 void KOSocket::OnRead() 
 {
 	Packet pkt;
@@ -95,38 +35,8 @@ void KOSocket::OnRead()
 	{
 		if (m_remaining == 0) 
 		{
-			/*
-			bool found = false;
-			//uint8_t key[5] = {};
-			long long uint32_t key = 0xFFFFFFFFFFFFFFFF;
-			int len = GetReadBuffer().GetSize();
-			uint8_t* tmpbuffer = (uint8_t*)malloc(len*sizeof(uint8_t));
-
-			do {
-				memcpy(tmpbuffer, GetReadBuffer().GetBufferStart(), len);
-
-				arc4_context rc4_ctx;
-				long long uint32_t key2 = RandUInt64();
-				arc4_setup(&rc4_ctx, (uint8_t*)&key2, 5);//(uint8_t *)"\xC2\xBA\xE1\x87\xDB", 5);
-				arc4_crypt(&rc4_ctx, tmpbuffer, len);
-				key--;
-
-				if(key%100000 == 0)
-					TRACE("left: 0x%16llX\n", key2);
-
-				char bit[9] = {};
-				for(int i=0; i<len-8; ++i) {
-					memcpy(bit, &tmpbuffer[i], 8);
-					if(!strcmp(bit, "bitshift")) {
-						found = true;
-					}
-				}
-
-			} while(!found);
-			*/
-
 			if (GetReadBuffer().GetSize() < 5)
-				return; //check for opcode as well
+				return;
 
 			uint16_t header = 0;
 			GetReadBuffer().Read(&header, 2);
