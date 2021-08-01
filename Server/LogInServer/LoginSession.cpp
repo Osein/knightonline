@@ -136,7 +136,7 @@ void LoginSession::HandleLogin(Packet & pkt)
 	{
 	}
 
-	g_pMain->WriteUserLogFile(string_format("[ LOGIN - %d:%d:%d ] ID=%s Authentication=%s\n",time.GetHour(),time.GetMinute(),time.GetSecond(),account.c_str(),password.c_str(),sAuthMessage.c_str()));
+	//g_pMain->WriteUserLogFile(string_format("[ LOGIN - %d:%d:%d ] ID=%s Authentication=%s\n",time.GetHour(),time.GetMinute(),time.GetSecond(),account.c_str(),password.c_str(),sAuthMessage.c_str()));
 
 	Send(&result);	
 }
