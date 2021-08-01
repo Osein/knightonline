@@ -10,6 +10,8 @@
 // Allow up to 30 minutes for the player to create their character / the client to load.
 #define KOSOCKET_LOADING_TIMEOUT (30 * 60)
 
+struct N3NetworkPacket;
+
 class KOSocket : public Socket
 {
 public:
@@ -26,7 +28,8 @@ public:
 	virtual bool DecryptPacket(uint8_t *in_stream, Packet & pkt);
 	virtual bool HandlePacket(Packet & pkt) = 0;
 
-	virtual bool Send(Packet * pkt);
+	virtual bool Send(Packet* pkt);
+	virtual bool Send(N3NetworkPacket* pkt);
 	virtual bool SendCompressed(Packet * pkt);
 	bool BuildCompressed(const Packet * pkt, Packet & result);
 

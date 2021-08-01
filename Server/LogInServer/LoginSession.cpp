@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "../shared/DateTime.h"
+#include "../shared/N3NetworkPacket.h"
 
 LSPacketHandler PacketHandlers[NUM_LS_OPCODES];
 void InitPacketHandlers(void)
@@ -9,9 +10,7 @@ void InitPacketHandlers(void)
 	PacketHandlers[LS_DOWNLOADINFO_REQ]		= &LoginSession::HandlePatches;
 	PacketHandlers[LS_LOGIN_REQ]			= &LoginSession::HandleLogin;
 	PacketHandlers[LS_SERVERLIST]			= &LoginSession::HandleServerlist;
-	PacketHandlers[LS_NEWS]					= &LoginSession::HandleNews;
 	PacketHandlers[LS_CRYPTION]				= &LoginSession::HandleSetEncryptionPublicKey;
-	PacketHandlers[LS_UNKF7]				= &LoginSession::HandleUnkF7;
 }
 
 LoginSession::LoginSession(uint16_t socketID, SocketMgr *mgr) : KOSocket(socketID, mgr, -1, 2048, 64) {}
@@ -174,34 +173,10 @@ void LoginSession::HandleServerlist(Packet & pkt)
 	Send(&result);
 }
 
-void LoginSession::HandleNews(Packet & pkt)
-{
-	Packet result(pkt.GetOpcode());
-	News *pNews = g_pMain->GetNews();
-
-	if (pNews->Size)
-	{
-		result << "Login Notice" << uint16_t(pNews->Size);
-		result.append(pNews->Content, pNews->Size);
-	}
-	else // dummy news, will skip past it
-	{
-		result << "Login Notice" << "<empty>";
-	}
-	Send(&result);
-}
-
 void LoginSession::HandleSetEncryptionPublicKey(Packet & pkt)
 {
 	Packet result(pkt.GetOpcode());
 	result << m_crypto.GenerateKey();
 	Send(&result);
 	EnableCrypto();
-}
-
-void LoginSession::HandleUnkF7(Packet & pkt)
-{
-	Packet result(pkt.GetOpcode());
-	result << uint16_t(0);
-	Send(&result);
 }

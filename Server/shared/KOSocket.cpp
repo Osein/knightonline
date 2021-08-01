@@ -150,14 +150,14 @@ bool KOSocket::DecryptPacket(uint8_t *in_stream, Packet & pkt)
 	return true;
 }
 
-bool KOSocket::Send(Packet * pkt) 
+bool KOSocket::Send(Packet* pkt)
 {
 	if (!IsConnected() || pkt->size() > GetWriteBuffer().GetAllocatedSize())
 		return false;
 
 	bool r;
 
-	uint8_t * out_stream = nullptr;
+	uint8_t* out_stream = nullptr;
 	uint16_t len = (uint16_t)pkt->size();
 
 	if (isCryptoEnabled())
@@ -166,8 +166,8 @@ bool KOSocket::Send(Packet * pkt)
 
 		out_stream = new uint8_t[len];
 
-		*(uint16_t *)&out_stream[0] = 0x1efc;
-		*(uint16_t *)&out_stream[2] = (uint16_t)(m_sequence); // this isn't actually incremented here
+		*(uint16_t*)&out_stream[0] = 0x1efc;
+		*(uint16_t*)&out_stream[2] = (uint16_t)(m_sequence); // this isn't actually incremented here
 		out_stream[4] = 0;
 		if (pkt->size() > 0)
 			memcpy(&out_stream[5], pkt->contents(), pkt->size());
@@ -197,7 +197,60 @@ bool KOSocket::Send(Packet * pkt)
 	if (r) BurstPush();
 	BurstEnd();
 
-	delete [] out_stream;
+	delete[] out_stream;
+	return r;
+}
+
+bool KOSocket::Send(N3NetworkPacket* pkt)
+{
+	if (!IsConnected())
+		return false;
+
+	bool r;
+
+	uint8_t* out_stream = nullptr;
+	uint16_t len = (uint16_t)sizeof(pkt);
+
+	if (isCryptoEnabled())
+	{
+		len += 5; // +5 [1EFC][m_sequence][00]
+
+		out_stream = new uint8_t[len];
+
+		*(uint16_t*)&out_stream[0] = 0x1efc;
+		*(uint16_t*)&out_stream[2] = (uint16_t)(m_sequence); // this isn't actually incremented here
+		out_stream[4] = 0;
+		if (len > 0) {
+			//memcpy(&out_stream[5], pkt->contents(), len);
+		}
+
+		m_crypto.JvEncryptionFast(len, out_stream, out_stream);
+	}
+	else
+	{
+		out_stream = new uint8_t[len];
+		if (len > 0) {
+			//memcpy(&out_stream[0], pkt->contents(), len);
+		}
+	}
+
+	BurstBegin();
+
+	if (GetWriteBuffer().GetSpace() < size_t(len + 6))
+	{
+		BurstEnd();
+		Disconnect();
+		return false;
+	}
+
+	r = BurstSend((const uint8_t*)"\xaa\x55", 2);
+	if (r) r = BurstSend((const uint8_t*)&len, 2);
+	if (r) r = BurstSend((const uint8_t*)out_stream, len);
+	if (r) r = BurstSend((const uint8_t*)"\x55\xaa", 2);
+	if (r) BurstPush();
+	BurstEnd();
+
+	delete[] out_stream;
 	return r;
 }
 

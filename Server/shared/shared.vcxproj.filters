@@ -425,5 +425,8 @@
     <ClInclude Include="Compression_LZF.h">
       <Filter>Compression\LZF</Filter>
     </ClInclude>
+    <ClInclude Include="N3NetworkPacket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
