@@ -16,6 +16,7 @@ static const int N3FORMAT_VER_DEFAULT = N3FORMAT_VER_1264;//N3FORMAT_VER_1068;
 #include <d3dx9.h>
 #include <DxErr.h>
 #include <Windows.h>
+#include <dinput.h>
 
 #include <iostream>
 #include <string>

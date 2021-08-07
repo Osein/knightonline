@@ -124,7 +124,7 @@ bool CUIQuestMenu::ReceiveMessage(CN3UIBase *pSender, uint32_t dwMsg)
 }
 
 //-----------------------------------------------------------------------------
-void CUIQuestMenu::MsgSend_SelectMenu(Uint8 index)
+void CUIQuestMenu::MsgSend_SelectMenu(uint8_t index)
 {
 	// TODO(srmeier): will have to look into whether bySelectedReward needs adding
 	uint8_t byBuff[10];
@@ -242,7 +242,7 @@ bool CUIQuestMenu::OnKeyPress(int iKey)
 {
 	switch(iKey)
 	{
-	case SDL_SCANCODE_ESCAPE://DIK_ESCAPE:
+	case DIK_ESCAPE:
 		SetVisible(false);
 		return true;
 	}

@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "UIChat.h"
 #include "GameEng.h"
 #include "resource.h"
@@ -10,185 +10,346 @@
 #include "GameProcMain.h"
 #include "N3WorldManager.h"
 #include "../Server/shared/Ini.h"
-
 #include "time.h"
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_ttf.h"
-#include "SDL2/SDL_net.h"
-#include "SDL2/SDL_image.h"
-#include "SDL2/SDL_mixer.h"
-
 #include "DFont.h"
+#include <winsock.h>
+#include "IMouseWheelInputDlg.h"
+#include "UIManager.h"
 
 //-----------------------------------------------------------------------------
-int SDL_main(int argc, char** argv)
-{	
-	// NOTE: get the current directory and make it known to CN3Base
+/*
+- NOTE: WndProcMain processes the messages for the main window
+*/
+LRESULT CALLBACK WndProcMain(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	switch (message)
+	{
+	case WM_COMMAND: {
+		uint16_t wNotifyCode = HIWORD(wParam); // notification code
+		CN3UIEdit* pEdit = CN3UIEdit::GetFocusedEdit();
+
+		if (wNotifyCode == EN_CHANGE && pEdit) {
+			uint16_t wID = LOWORD(wParam); // item, control, or accelerator identifier
+			HWND hwndCtl = (HWND)lParam;
+
+			if (CN3UIEdit::s_hWndEdit == hwndCtl) {
+				pEdit->UpdateTextFromEditCtrl();
+				pEdit->UpdateCaretPosFromEditCtrl();
+				CGameProcedure::SetGameCursor(CGameProcedure::s_hCursorNormal);
+			}
+		}
+	} break;
+
+	case WM_NOTIFY: {
+		int idCtrl = (int)wParam;
+		NMHDR* pnmh = (NMHDR*)lParam;
+	} break;
+
+	case WM_KEYDOWN: {
+		int iLangID = ::GetUserDefaultLangID();
+		if (iLangID == 0x0404) { // Taiwan Language
+			CUIChat* pUIChat = CGameProcedure::s_pProcMain->m_pUIChatDlg;
+			int iVK = (int)wParam;
+
+			if (
+				pUIChat && iVK != VK_ESCAPE && iVK != VK_RETURN &&
+				CGameProcedure::s_pProcMain &&
+				CGameProcedure::s_pProcActive == CGameProcedure::s_pProcMain &&
+				!pUIChat->IsChatMode()
+				) {
+				if (!(GetKeyState(VK_CONTROL) & 0x8000)) {
+					pUIChat->SetFocus();
+					PostMessage(CN3UIEdit::s_hWndEdit, WM_KEYDOWN, wParam, lParam);
+					return 0;
+				}
+			}
+		}
+	} break;
+
+	case WM_SOCKETMSG: {
+		switch (WSAGETSELECTEVENT(lParam))
+		{
+		case FD_CONNECT: {
+			//TRACE("Socket connected..\n");
+		} break;
+		case FD_CLOSE: {
+			if (CGameProcedure::s_bNeedReportConnectionClosed)
+				CGameProcedure::ReportServerConnectionClosed(true);
+			//TRACE("Socket closed..\n");
+		}  break;
+		case FD_READ: {
+			CGameProcedure::s_pSocket->Receive();
+		} break;
+		default: {
+			__ASSERT(0, "WM_SOCKETMSG: unknown socket flag.");
+		} break;
+		}
+	} break;
+
+		/*
+	case WM_ACTIVATE: {
+		int iActive = LOWORD(wParam);           // activation flag
+		int iMinimized = (BOOL) HIWORD(wParam); // minimized flag
+		HWND hwndPrevious = (HWND) lParam;      // window handle
+
+		switch(iActive)
+		{
+			case WA_CLICKACTIVE:
+			case WA_ACTIVE: {
+				#ifdef _DEBUG
+					g_bActive = TRUE;
+				#endif
+			} break;
+			case WA_INACTIVE: {
+				#ifdef _DEBUG
+					g_bActive = FALSE;
+				#endif
+
+				if(CGameProcedure::s_bWindowed == false) {
+					CLogWriter::Write("WA_INACTIVE.");
+					PostQuitMessage(0);
+				}
+			} break;
+		}
+	} break;
+	*/
+
+	/*
+case WM_CLOSE:
+case WM_DESTROY:
+case WM_QUIT: {
+	CGameProcedure::s_pSocket->Disconnect();
+	CGameProcedure::s_pSocketSub->Disconnect();
+
+	PostQuitMessage(0);
+} break;
+*/
+
+	case WM_MOUSEWHEEL: {
+		if (CGameProcedure::s_pProcActive == CGameProcedure::s_pProcMain) {
+			float fDelta = ((int16_t)HIWORD(wParam)) * 0.05f;
+
+			CN3UIBase* focused = CGameProcedure::s_pUIMgr->GetFocusedUI();
+
+			if (focused)
+			{
+				int key = fDelta > 0 ? DIK_PGUP : DIK_PGDN;
+				if (IMouseWheelInputDlg* t = dynamic_cast<IMouseWheelInputDlg*>(focused))
+					t->OnKeyPress(key);
+				else
+					CGameProcedure::s_pEng->CameraZoom(fDelta);
+			}
+			else
+				CGameProcedure::s_pEng->CameraZoom(fDelta);
+		}
+	} break;
+	}
+
+	return DefWindowProc(hWnd, message, wParam, lParam);
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+//
+/////////////////////////////////////////////////////////////////////////////////
+HWND CreateMainWindow(HINSTANCE hInstance)
+{
+	WNDCLASS    wc;
+
+	//  only register the window class once - use hInstance as a flag. 
+	wc.style = 0;
+	wc.lpfnWndProc = (WNDPROC)WndProcMain;
+	wc.cbClsExtra = 0;
+	wc.cbWndExtra = 0;
+	wc.hInstance = hInstance;
+	wc.hIcon = NULL; // LoadIcon(hInstance, MAKEINTRESOURCE(IDI_MAIN));
+	wc.hCursor = NULL;
+	wc.hbrBackground = (HBRUSH)GetStockObject(NULL_BRUSH);
+	wc.lpszMenuName = NULL;
+	wc.lpszClassName = "Knight OnLine Client";
+
+	if (0 == ::RegisterClass(&wc))
+	{
+		CLogWriter::Write("Cannot register window class.");
+		exit(-1);
+	}
+
+	DWORD	style = WS_POPUP | WS_CLIPCHILDREN;
+	return ::CreateWindow("Knight OnLine Client", "Knight OnLine Client", style, 0, 0, CN3Base::s_Options.iViewWidth, CN3Base::s_Options.iViewHeight, NULL, NULL, hInstance, NULL);
+}
+
+const int MAX_GAME_PROCEDURE = 8;
+
+int APIENTRY WinMain(HINSTANCE hInstance,
+	HINSTANCE hPrevInstance,
+	LPSTR     lpCmdLine,
+	int       nCmdShow)
+{
 	char szPath[_MAX_PATH] = "";
 	GetCurrentDirectory(_MAX_PATH, szPath);
 	CN3Base::PathSet(szPath);
 
-	// NOTE: we are anticipating an Options file to exist within this directory
+	// ���� �б�..
 	char szIniPath[_MAX_PATH] = "";
 	lstrcpy(szIniPath, CN3Base::PathGet().c_str());
-	lstrcat(szIniPath, "Option.ini");
+	lstrcat(szIniPath, "Option.Ini");
 
-	CIni ini(szIniPath);
+	CN3Base::s_Options.iTexLOD_Chr = GetPrivateProfileInt("Texture", "LOD_Chr", 0, szIniPath);
+	if (CN3Base::s_Options.iTexLOD_Chr < 0) CN3Base::s_Options.iTexLOD_Chr = 0;
+	if (CN3Base::s_Options.iTexLOD_Chr >= 2) CN3Base::s_Options.iTexLOD_Chr = 1;
 
-	// NOTE: what is the texture quality?
-	CN3Base::s_Options.iTexLOD_Chr = ini.GetInt("Texture", "LOD_Chr", 0);
-	if(CN3Base::s_Options.iTexLOD_Chr < 0) CN3Base::s_Options.iTexLOD_Chr = 0;
-	if(CN3Base::s_Options.iTexLOD_Chr >= 2) CN3Base::s_Options.iTexLOD_Chr = 1;
-	
-	// NOTE: what is the texture quality?
-	CN3Base::s_Options.iTexLOD_Shape = ini.GetInt("Texture", "LOD_Shape", 0);
-	if(CN3Base::s_Options.iTexLOD_Shape < 0) CN3Base::s_Options.iTexLOD_Shape = 0;
-	if(CN3Base::s_Options.iTexLOD_Shape >= 2) CN3Base::s_Options.iTexLOD_Shape = 1;
+	CN3Base::s_Options.iTexLOD_Shape = GetPrivateProfileInt("Texture", "LOD_Shape", 0, szIniPath);
+	if (CN3Base::s_Options.iTexLOD_Shape < 0) CN3Base::s_Options.iTexLOD_Shape = 0;
+	if (CN3Base::s_Options.iTexLOD_Shape >= 2) CN3Base::s_Options.iTexLOD_Shape = 1;
 
-	// NOTE: what is the texture quality?
-	CN3Base::s_Options.iTexLOD_Terrain = ini.GetInt("Texture", "LOD_Terrain", 0);
-	if(CN3Base::s_Options.iTexLOD_Terrain < 0) CN3Base::s_Options.iTexLOD_Terrain = 0;
-	if(CN3Base::s_Options.iTexLOD_Terrain >= 2) CN3Base::s_Options.iTexLOD_Terrain = 1;
+	CN3Base::s_Options.iTexLOD_Terrain = GetPrivateProfileInt("Texture", "LOD_Terrain", 0, szIniPath);
+	if (CN3Base::s_Options.iTexLOD_Terrain < 0) CN3Base::s_Options.iTexLOD_Terrain = 0;
+	if (CN3Base::s_Options.iTexLOD_Terrain >= 2) CN3Base::s_Options.iTexLOD_Terrain = 1;
 
-	// NOTE: should we use shadows?
-	CN3Base::s_Options.iUseShadow = ini.GetInt("Shadow", "Use", 1);
+	CN3Base::s_Options.iUseShadow = GetPrivateProfileInt("Shadow", "Use", 1, szIniPath);
 
-	// NOTE: what is the screen resolution?
-	CN3Base::s_Options.iViewWidth = ini.GetInt("ViewPort", "Width", 1024);
-	CN3Base::s_Options.iViewHeight = ini.GetInt("ViewPort", "Height", 768);
-	
-	if(CN3Base::s_Options.iViewWidth == 1024) CN3Base::s_Options.iViewHeight = 768;
-	else if(1280 == CN3Base::s_Options.iViewWidth) CN3Base::s_Options.iViewHeight = 1024;
-	else if(1600 == CN3Base::s_Options.iViewWidth) CN3Base::s_Options.iViewHeight = 1200;
-	else if (1366 == CN3Base::s_Options.iViewWidth) CN3Base::s_Options.iViewHeight = 768;
-	else if(1920 == CN3Base::s_Options.iViewWidth) CN3Base::s_Options.iViewHeight = 1080;
-	/*
-	else {
+	CN3Base::s_Options.iViewWidth = GetPrivateProfileInt("ViewPort", "Width", 1024, szIniPath);
+	CN3Base::s_Options.iViewHeight = GetPrivateProfileInt("ViewPort", "Height", 768, szIniPath);
+	if (1024 == CN3Base::s_Options.iViewWidth) CN3Base::s_Options.iViewHeight = 768;
+	else if (1280 == CN3Base::s_Options.iViewWidth) CN3Base::s_Options.iViewHeight = 1024;
+	else if (1600 == CN3Base::s_Options.iViewWidth) CN3Base::s_Options.iViewHeight = 1200;
+	else
+	{
 		CN3Base::s_Options.iViewWidth = 1024;
 		CN3Base::s_Options.iViewHeight = 768;
-	*/
-
-	// NOTE: what is the viewport's color depth?
-	CN3Base::s_Options.iViewColorDepth = ini.GetInt("ViewPort", "ColorDepth", 16);
-	if(CN3Base::s_Options.iViewColorDepth != 16 && CN3Base::s_Options.iViewColorDepth != 32)
-		CN3Base::s_Options.iViewColorDepth = 32;
-
-	// NOTE: what is the viewport's draw distance?
-	CN3Base::s_Options.iViewDist = ini.GetInt("ViewPort", "Distance", 512);
-	if(CN3Base::s_Options.iViewDist < 256) CN3Base::s_Options.iViewDist = 256;
-	if(CN3Base::s_Options.iViewDist > 512) CN3Base::s_Options.iViewDist = 512;
-
-	// NOTE: what is the distance for sound events?
-	CN3Base::s_Options.iEffectSndDist = ini.GetInt("Sound", "Distance", 48);
-	if(CN3Base::s_Options.iEffectSndDist < 20) CN3Base::s_Options.iEffectSndDist = 20;
-	if(CN3Base::s_Options.iEffectSndDist > 48) CN3Base::s_Options.iEffectSndDist = 48;
-
-	// NOTE: is sound enabled?
-	CN3Base::s_Options.bSndEnable = ini.GetBool("Sound", "Enable", true);
-
-	// NOTE: is sound duplicated?
-	CN3Base::s_Options.bSndDuplicated = ini.GetBool("Sound", "Duplicate", false);
-
-	// NOTE: should we show the window cursor?
-	CN3Base::s_Options.bWindowCursor = ini.GetBool("Cursor", "WindowCursor", true);
-																	   
-	// NOTE: should we show window full screen?
-	CN3Base::s_Options.bWindowMode = ini.GetBool("Screen", "WindowMode", false);
-
-	srand((uint32_t) time(NULL));
-
-	if(SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-		fprintf(stderr, "ER: %s\n", SDL_GetError());
-		Sleep(1000 * 5);//If the user can't read the error, there is no point in warning them.
-		return false;
 	}
 
-	// TEMP: until we can get off windows
-	SDL_EventState(SDL_SYSWMEVENT, SDL_ENABLE);
-	//
+	CN3Base::s_Options.iViewColorDepth = GetPrivateProfileInt("ViewPort", "ColorDepth", 16, szIniPath);
+	if (CN3Base::s_Options.iViewColorDepth != 16 && CN3Base::s_Options.iViewColorDepth != 32)
+		CN3Base::s_Options.iViewColorDepth = 16;
+	CN3Base::s_Options.iViewDist = GetPrivateProfileInt("ViewPort", "Distance", 512, szIniPath);
+	if (CN3Base::s_Options.iViewDist < 256) CN3Base::s_Options.iViewDist = 256;
+	if (CN3Base::s_Options.iViewDist > 512) CN3Base::s_Options.iViewDist = 512;
 
-	if(TTF_Init() == -1) {
-		fprintf(stderr, "ER: %s\n", TTF_GetError());
-		Sleep(1000 * 5);
-		return false;
+	CN3Base::s_Options.iEffectSndDist = GetPrivateProfileInt("Sound", "Distance", 48, szIniPath);
+	if (CN3Base::s_Options.iEffectSndDist < 20) CN3Base::s_Options.iEffectSndDist = 20;
+	if (CN3Base::s_Options.iEffectSndDist > 48) CN3Base::s_Options.iEffectSndDist = 48;
+
+	int iSndEnable = GetPrivateProfileInt("Sound", "Enable", 1, szIniPath);
+	CN3Base::s_Options.bSndEnable = (iSndEnable) ? true : false; // ����...
+
+	int iSndDuplicate = GetPrivateProfileInt("Sound", "Duplicate", 0, szIniPath);
+	CN3Base::s_Options.bSndDuplicated = (iSndDuplicate) ? true : false; // ����...
+
+	int iWindowCursor = GetPrivateProfileInt("Cursor", "WindowCursor", 1, szIniPath);
+	CN3Base::s_Options.bWindowCursor = (iWindowCursor) ? true : false; // cursor...
+
+	// ���� �����츦 �����..
+	HWND hWndMain = CreateMainWindow(hInstance);
+	if (NULL == hWndMain)
+	{
+		CLogWriter::Write("Cannot create window.");
+		exit(-1);
+	}
+	::ShowWindow(hWndMain, nCmdShow); // �����ش�..
+	::SetActiveWindow(hWndMain);
+
+	// Launcher ���׷��̵�..
+	FILE* pFile = fopen("Launcher2.exe", "r"); // ���׷��̵� �Ұ� ���� �� �ش�..
+	if (pFile)
+	{
+		fclose(pFile);
+		if (::DeleteFile("Launcher.exe")) // ���� �� �����..
+		{
+			::rename("Launcher2.exe", "Launcher.exe"); // �̸��� �ٲپ� �ش�..
+		}
 	}
 
-	int flags = IMG_INIT_JPG|IMG_INIT_PNG;
-	if((IMG_Init(flags)&flags) != flags) {
-		fprintf(stderr, "ER: %s\n", IMG_GetError());
-		Sleep(1000 * 5);
-		return false;
+	// ���α׷� �μ� ó��..
+	if (lpCmdLine && lstrlen(lpCmdLine) > 0 && lstrlen(lpCmdLine) < 64) // �μ��� ���� ������..
+	{
+		char szService[64], szAccountTmp[64], szPWTmp[64];
+		sscanf(lpCmdLine, "%s %s %s", szService, szAccountTmp, szPWTmp);
+
+		if (0 == lstrcmpi(szService, "MGame")) // ������ ���� �α���...
+			CGameProcedure::s_eLogInClassification = LIC_MGAME;
+		else if (0 == lstrcmpi(szService, "Daum")) // ���� ���� �α���...
+			CGameProcedure::s_eLogInClassification = LIC_DAUM;
+		else
+			CGameProcedure::s_eLogInClassification = LIC_KNIGHTONLINE;
+		CGameProcedure::s_szAccount = szAccountTmp; // ����
+		CGameProcedure::s_szPassWord = szPWTmp; // ���.
+
+		if (0 == lstrcmpi(szService, "$#$%&^@!#$%#@^%&#%$&^����������")) // ��� ���� ����...
+			CGameProcedure::s_bWindowed = true;
+		else
+			CGameProcedure::s_bWindowed = false;
 	}
 
-	flags = MIX_INIT_OGG|MIX_INIT_MP3;
-	if((Mix_Init(flags)&flags) != flags) {
-		fprintf(stderr, "ER: %s\n", Mix_GetError());
-		Sleep(1000 * 5);
-		return false;
-	}
-
-	if(SDLNet_Init() == -1) {
-		fprintf(stderr, "ER: %s\n", SDLNet_GetError());
-		Sleep(1000 * 5);
-		return false;
-	}
-
-	Uint32 windowFlags = SDL_WINDOW_INPUT_FOCUS | SDL_WINDOW_SHOWN;
-	if (!CN3Base::s_Options.bWindowMode)
-		windowFlags |= SDL_WINDOW_FULLSCREEN;
-
-	SDL_Window* pWindow = SDL_CreateWindow(
-		"KnightOnline",
-		SDL_WINDOWPOS_CENTERED,
-		SDL_WINDOWPOS_CENTERED,
-		CN3Base::s_Options.iViewWidth,
-		CN3Base::s_Options.iViewHeight,
-		windowFlags
-	);
-
-	if(pWindow == NULL) {
-		fprintf(stderr, "ER: %s\n", SDL_GetError());
-		Sleep(1000 * 5);
-		return false;
-	}
-
-	CGameProcedure::s_bWindowed = true;
-
-	// NOTE: allocate the static members
-	CGameProcedure::StaticMemberInit(pWindow);
-
-	// NOTE: set the games current procedure to s_pProcLogIn
+	//////////////////////////////////////////////////////////////////////////////////////////
+	// Static Member ����...
+	CGameProcedure::StaticMemberInit(hInstance, hWndMain);
 	CGameProcedure::ProcActiveSet((CGameProcedure*)CGameProcedure::s_pProcLogIn);
 
-	/*
-	// TESTING ----------
-	CGameBase::s_pPlayer->m_InfoBase.eRace = RACE_KA_ARKTUAREK;
-	CGameBase::s_pPlayer->m_InfoBase.eNation = NATION_KARUS;
-	CGameBase::s_pPlayer->m_InfoBase.eClass = CLASS_KA_WARRIOR;
-	CGameBase::s_pPlayer->m_InfoExt.iZoneInit = 0x01;
-	CGameBase::s_pPlayer->m_InfoExt.iZoneCur = 1;
-	CGameBase::s_pPlayer->IDSet(-1, "testing", 0xffffffff);
-	CGameBase::s_pPlayer->m_InfoBase.iAuthority == AUTHORITY_MANAGER;
-
-	__TABLE_PLAYER_LOOKS* pLooks = CGameBase::s_pTbl_UPC_Looks.Find(CGameBase::s_pPlayer->m_InfoBase.eRace);
-	CGameBase::s_pPlayer->InitChr(pLooks);
-
-	CGameProcedure::ProcActiveSet((CGameProcedure*)CGameProcedure::s_pProcMain);
-	//CGameProcedure::ProcActiveSet((CGameProcedure*)CGameProcedure::s_pProcCharacterSelect);
-	// TESTING -----------
-	*/
+#if _DEBUG
+	HDC hDC = GetDC(hWndMain);
+#endif // #if _DEBUG
 
 	BOOL bGotMsg = FALSE;
-	MSG msg = { 0 };
 
-	CGameBase::s_bRunning = true;
+	MSG msg; memset(&msg, 0, sizeof(MSG));
+	while (WM_QUIT != msg.message)
+	{
+		// Use PeekMessage() if the app is active, so we can use idle time to
+		// render the scene. Else, use GetMessage() to avoid eating CPU time.
+		bGotMsg = PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE);
 
-	while(CGameBase::s_bRunning) {
-		CGameProcedure::TickActive();
-		CGameProcedure::RenderActive();
+		if (bGotMsg)
+		{
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+		else
+		{
+			CGameProcedure::TickActive();
+			CGameProcedure::RenderActive();
+#if _DEBUG
+			static float fTimePrev = CN3Base::TimeGet();
+			static char szDebugs[4][256] = { "", "", "", "" };
+			float fTime = CN3Base::TimeGet();
+			if (fTime > fTimePrev + 0.5f)
+			{
+				fTimePrev = fTime;
+
+				sprintf(szDebugs[0], "���� : ����(%d) Ÿ��(%d) || Object : ����(%d) �κм�(%d) ������(%d)",
+					CN3Base::s_RenderInfo.nTerrain_Polygon,
+					CN3Base::s_RenderInfo.nTerrain_Tile_Polygon,
+					CN3Base::s_RenderInfo.nShape,
+					CN3Base::s_RenderInfo.nShape_Part,
+					CN3Base::s_RenderInfo.nShape_Polygon);
+
+				sprintf(szDebugs[1], "ĳ���� : ����(%d), ��Ʈ��(%d), ������(%d), ����(%d), ����������(%d)",
+					CN3Base::s_RenderInfo.nChr,
+					CN3Base::s_RenderInfo.nChr_Part,
+					CN3Base::s_RenderInfo.nChr_Polygon,
+					CN3Base::s_RenderInfo.nChr_Plug,
+					CN3Base::s_RenderInfo.nChr_Plug_Polygon);
+
+				sprintf(szDebugs[2], "Camera : Lens(%.1f) NearPlane(%.1f) FarPlane(%.1f)",
+					D3DXToDegree(CN3Base::s_CameraData.fFOV),
+					CN3Base::s_CameraData.fNP,
+					CN3Base::s_CameraData.fFP);
+
+				if (CGameProcedure::s_pProcMain && CGameBase::ACT_WORLD && CGameBase::ACT_WORLD->GetSkyRef())
+				{
+					int iYear = 0, iMonth = 0, iDay = 0, iH = 0, iM = 0;
+					CGameBase::ACT_WORLD->GetSkyRef()->GetGameTime(&iYear, &iMonth, &iDay, &iH, &iM);
+					sprintf(szDebugs[3], "%.2f Frm/Sec, %d��%d��%d�� %d��%d��", CN3Base::s_fFrmPerSec, iYear, iMonth, iDay, iH, iM);
+				}
+				else szDebugs[3][0] = NULL;
+			}
+
+			for (int i = 0; i < 4; i++)
+				if (szDebugs[i])
+					TextOut(hDC, 0, i * 18, szDebugs[i], lstrlen(szDebugs[i])); // ȭ�鿡 ������ ���� ǥ��..
+#endif // #if _DEBUG
+		}
 	}
 
 	CGameProcedure::StaticMemberRelease();
-
-	return 0;
+	return msg.wParam;
 }

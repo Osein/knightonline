@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include <winsock.h>
 
 #include "LocalInput.h"
@@ -11,8 +11,6 @@
 #include "GameProcMain.h"
 #include "APISocket.h"
 #include "GameEng.h"
-
-#include "SDL2\SDL_syswm.h"
 
 #include "UIManager.h"
 #include "IMouseWheelInputDlg.h"
@@ -43,10 +41,62 @@ CLocalInput::CLocalInput(void) {
 }	
 
 //-----------------------------------------------------------------------------
-CLocalInput::~CLocalInput(void) {}
+CLocalInput::~CLocalInput(void) {
+	if (m_lpDIDKeyboard)
+	{
+		UnacquireKeyboard();
+		m_lpDIDKeyboard->Release();
+		m_lpDIDKeyboard = NULL;
+	}
+
+	// shutdown mouse
+	if (m_lpDIDMouse)
+	{
+		UnacquireMouse();
+		m_lpDIDMouse->Release();
+		m_lpDIDMouse = NULL;
+	}
+
+	// kill directinput
+	if (m_lpDI)
+	{
+		m_lpDI->Release();
+		m_lpDI = NULL;
+	}
+}
 
 //-----------------------------------------------------------------------------
-BOOL CLocalInput::Init(SDL_Window* pWindow, BOOL bActivateKeyboard, BOOL bActivateMouse, BOOL ExclusiveMouseAccess) {
+BOOL CLocalInput::Init(HINSTANCE hInst, HWND hWnd, BOOL bActivateKeyboard, BOOL bActivateMouse, BOOL ExclusiveMouseAccess) {
+	HRESULT rval;
+
+	m_hWnd = hWnd; // ������ �ڵ� ���..
+
+	rval = DirectInput8Create(hInst, DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)(&m_lpDI), NULL);
+	if (rval != DI_OK) return FALSE;
+
+	// Create the keyboard device
+	rval = m_lpDI->CreateDevice(GUID_SysKeyboard, &m_lpDIDKeyboard, NULL);
+	if (rval == DI_OK)
+	{
+		m_lpDIDKeyboard->SetDataFormat(&c_dfDIKeyboard);
+		m_lpDIDKeyboard->SetCooperativeLevel(hWnd, DISCL_NONEXCLUSIVE | DISCL_FOREGROUND | DISCL_NOWINKEY);
+
+		AcquireKeyboard();
+	}
+
+	// Create the mouse device
+	rval = m_lpDI->CreateDevice(GUID_SysMouse, &m_lpDIDMouse, NULL);
+	if (rval == DI_OK)
+	{
+		m_lpDIDMouse->SetDataFormat(&c_dfDIMouse);
+		if (ExclusiveMouseAccess == FALSE)
+			m_lpDIDMouse->SetCooperativeLevel(hWnd, DISCL_NONEXCLUSIVE | DISCL_FOREGROUND);
+		else
+			m_lpDIDMouse->SetCooperativeLevel(hWnd, DISCL_EXCLUSIVE | DISCL_FOREGROUND);
+
+		AcquireMouse();
+	}
+
 	return TRUE;
 }
 
@@ -86,262 +136,192 @@ BOOL CLocalInput::KeyboardGetKeyState(int nDIKey) {
 	return(m_byCurKeys[nDIKey]);
 }
 
-//-----------------------------------------------------------------------------
-/*
-- NOTE: WndProcMain processes the messages for the main window
-*/
-LRESULT CALLBACK WndProcMain(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+void CLocalInput::AcquireKeyboard()
 {
-	switch(message)
+	if (m_lpDIDKeyboard)
 	{
-		case WM_COMMAND: {
-			uint16_t wNotifyCode = HIWORD(wParam); // notification code
-			CN3UIEdit* pEdit = CN3UIEdit::GetFocusedEdit();
-
-			if(wNotifyCode == EN_CHANGE && pEdit) {
-				uint16_t wID = LOWORD(wParam); // item, control, or accelerator identifier
-				HWND hwndCtl = (HWND)lParam;
-
-				if(CN3UIEdit::s_hWndEdit == hwndCtl) {
-					pEdit->UpdateTextFromEditCtrl();
-					pEdit->UpdateCaretPosFromEditCtrl();
-					CGameProcedure::SetGameCursor(CGameProcedure::s_hCursorNormal);
-				}
-			}
-		} break;
-
-		case WM_NOTIFY: {
-			int idCtrl = (int) wParam; 
-			NMHDR* pnmh = (NMHDR*) lParam; 
-		} break;
-
-		case WM_KEYDOWN: {
-			int iLangID = ::GetUserDefaultLangID();
-			if(iLangID == 0x0404) { // Taiwan Language
-				CUIChat* pUIChat = CGameProcedure::s_pProcMain->m_pUIChatDlg;
-				int iVK = (int)wParam;
-
-				if(
-					pUIChat && iVK != VK_ESCAPE && iVK != VK_RETURN &&
-					CGameProcedure::s_pProcMain &&
-					CGameProcedure::s_pProcActive == CGameProcedure::s_pProcMain &&
-					!pUIChat->IsChatMode()
-				) {
-					if(!(GetKeyState(VK_CONTROL)&0x8000)) {
-						pUIChat->SetFocus();
-						PostMessage(CN3UIEdit::s_hWndEdit, WM_KEYDOWN, wParam, lParam);
-						return 0;
-					}
-				}
-			}
-		} break;
-
-		case WM_SOCKETMSG: {
-			switch(WSAGETSELECTEVENT(lParam))
-			{
-				case FD_CONNECT: {
-					//TRACE("Socket connected..\n");
-				} break;
-				case FD_CLOSE: {
-					if(CGameProcedure::s_bNeedReportConnectionClosed) 
-						CGameProcedure::ReportServerConnectionClosed(true);
-					//TRACE("Socket closed..\n");
-				}  break;
-				case FD_READ: {
-					CGameProcedure::s_pSocket->Receive();
-				} break;
-				default: {
-					__ASSERT(0, "WM_SOCKETMSG: unknown socket flag.");
-				} break;
-			}
-		} break;
-
-			/*
-		case WM_ACTIVATE: {
-			int iActive = LOWORD(wParam);           // activation flag 
-			int iMinimized = (BOOL) HIWORD(wParam); // minimized flag 
-			HWND hwndPrevious = (HWND) lParam;      // window handle 
-
-			switch(iActive)
-			{
-				case WA_CLICKACTIVE:
-				case WA_ACTIVE: {
-					#ifdef _DEBUG
-						g_bActive = TRUE;
-					#endif
-				} break;
-				case WA_INACTIVE: {
-					#ifdef _DEBUG
-						g_bActive = FALSE;
-					#endif
-
-					if(CGameProcedure::s_bWindowed == false) {
-						CLogWriter::Write("WA_INACTIVE.");
-						PostQuitMessage(0);
-					}
-				} break;
-			}
-		} break;
-		*/
-
-			/*
-		case WM_CLOSE:
-		case WM_DESTROY:
-		case WM_QUIT: {
-			CGameProcedure::s_pSocket->Disconnect();
-			CGameProcedure::s_pSocketSub->Disconnect();
-
-			PostQuitMessage(0);
-		} break;
-		*/
-		
-		case WM_MOUSEWHEEL: {
-			if(CGameProcedure::s_pProcActive == CGameProcedure::s_pProcMain) {
-				float fDelta = ((int16_t)HIWORD(wParam)) * 0.05f;
-
-				CN3UIBase* focused = CGameProcedure::s_pUIMgr->GetFocusedUI();
-				
-				if (focused)
-				{
-					int key = fDelta > 0 ? SDL_SCANCODE_PAGEUP : SDL_SCANCODE_PAGEDOWN;
-					if (IMouseWheelInputDlg* t = dynamic_cast<IMouseWheelInputDlg*>(focused))
-						t->OnKeyPress(key);
-					else
-						CGameProcedure::s_pEng->CameraZoom(fDelta);
-				}
-				else
-					CGameProcedure::s_pEng->CameraZoom(fDelta);
-			}
-		} break;
+		HRESULT rval = m_lpDIDKeyboard->Acquire();
+		//		if(rval != DI_OK) MessageBox(::GetActiveWindow(), "Acquire Keyboard Failed.", "DirectInput", MB_OK);
+		if (rval == DI_OK || rval == S_FALSE)
+		{
+			//			m_bKeyboard = TRUE;
+			KeyboardFlushData();
+			return;
+		}
 	}
-	
-	return 0;//DefWindowProc(hWnd, message, wParam, lParam);
+	//	m_bKeyboard = FALSE;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// Releases access to the keyboard.
+/////////////////////////////////////////////////////////////////////////////////////////////
+void CLocalInput::UnacquireKeyboard()
+{
+	KeyboardFlushData();
+	//	m_bKeyboard = FALSE;
+	if (m_lpDIDKeyboard)
+	{
+		HRESULT rval = m_lpDIDKeyboard->Unacquire();
+		//		if(rval != DI_OK) MessageBox(::GetActiveWindow(), "UnAcquire Keyboard Failed.", "DirectInput", MB_OK);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// Obtains access to the mouse.
+/////////////////////////////////////////////////////////////////////////////////////////////
+void CLocalInput::AcquireMouse()
+{
+	if (m_lpDIDMouse)
+	{
+		HRESULT rval = m_lpDIDMouse->Acquire();
+		if (rval == DI_OK || rval == S_FALSE)
+		{
+			return;
+		}
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// Releases access to the mouse.
+/////////////////////////////////////////////////////////////////////////////////////////////
+void CLocalInput::UnacquireMouse()
+{
+	m_bMouse = FALSE;
+	if (m_lpDIDMouse)
+	{
+		HRESULT rval = m_lpDIDMouse->Unacquire();
+	}
 }
 
 //-----------------------------------------------------------------------------
 void CLocalInput::Tick(void) {
-	memcpy(m_byOldKeys, m_byCurKeys, NUMDIKEYS);
+	HRESULT err;
+	//	int oldx, oldy;
+	//	BOOL isPressed;
+	//	WORD i;
+	//	DWORD key;
 
-	m_ptOldMouse = m_ptCurMouse;
-	m_nMouseFlagOld = m_nMouseFlag;
+	HWND hWndActive = ::GetActiveWindow(); // ��Ŀ�̵Ǿ�������...
 
-	m_nMouseFlag  = 0;
-	m_nMouseFlag |= (m_nMouseFlagOld & MOUSE_LBDOWN);
-	m_nMouseFlag |= (m_nMouseFlagOld & MOUSE_MBDOWN);
-	m_nMouseFlag |= (m_nMouseFlagOld & MOUSE_RBDOWN);
+	///////////////////////
+	//  KEYBOARD
+	///////////////////////
+//	if(m_bKeyboard)
+//	{
+	memcpy(m_byOldKeys, m_byCurKeys, NUMDIKEYS); // ���� Ű ���� ���
+	err = m_lpDIDKeyboard->GetDeviceState(NUMDIKEYS, m_byCurKeys); // ���� Ű ���� ���
+	if (err != DI_OK) AcquireKeyboard();
+	else
+	{
+		m_bNoKeyDown = TRUE; // ÷�� �ƹ��͵� �ȴ���
+		for (int i = 0; i < NUMDIKEYS; i++)
+		{
+			if (!m_byOldKeys[i] && m_byCurKeys[i]) m_bKeyPresses[i] = TRUE; // ������ ����
+			else m_bKeyPresses[i] = FALSE;
 
-	SDL_Event uSDLEvents = {};
-	while(SDL_PollEvent(&uSDLEvents)) {
-		switch(uSDLEvents.type) {
-			case SDL_QUIT: {
-				CGameProcedure::s_pSocket->Disconnect();
-				CGameProcedure::s_pSocketSub->Disconnect();
-				CGameBase::s_bRunning = false;
-			} break;
+			if (m_byOldKeys[i] && !m_byCurKeys[i]) m_bKeyPresseds[i] = TRUE; // ������ ���� ����..
+			else m_bKeyPresseds[i] = FALSE;
 
-			case SDL_MOUSEMOTION: {
-				m_ptCurMouse.x = uSDLEvents.motion.x;
-				m_ptCurMouse.y = uSDLEvents.motion.y;
-			} break;
-
-			case SDL_MOUSEBUTTONUP: {
-				switch(uSDLEvents.button.button) {
-					case SDL_BUTTON_LEFT:   m_nMouseFlag ^= MOUSE_LBDOWN; break;
-					case SDL_BUTTON_MIDDLE: m_nMouseFlag ^= MOUSE_MBDOWN; break;
-					case SDL_BUTTON_RIGHT:  m_nMouseFlag ^= MOUSE_RBDOWN; break;
-				}
-			} break;
-
-			case SDL_MOUSEBUTTONDOWN: {
-				switch(uSDLEvents.button.button) {
-					case SDL_BUTTON_LEFT:   m_nMouseFlag |= MOUSE_LBDOWN; break;
-					case SDL_BUTTON_MIDDLE: m_nMouseFlag |= MOUSE_MBDOWN; break;
-					case SDL_BUTTON_RIGHT:  m_nMouseFlag |= MOUSE_RBDOWN; break;
-				}
-			} break;
-
-			case SDL_KEYUP: {
-				m_byCurKeys[uSDLEvents.key.keysym.scancode] = 0x00;
-			} break;
-
-			case SDL_KEYDOWN: {
-				m_byCurKeys[uSDLEvents.key.keysym.scancode] = 0x01;
-			} break;
-
-			case SDL_WINDOWEVENT: {
-				switch (uSDLEvents.window.event) {
-					case SDL_WINDOWEVENT_FOCUS_GAINED:
-						CGameProcedure::s_bIsWindowInFocus = true;
-						break;
-					case SDL_WINDOWEVENT_FOCUS_LOST:
-						CGameProcedure::s_bIsWindowInFocus = false;
-						break;
-					case SDL_WINDOWEVENT_ENTER:
-						CGameProcedure::s_bWindowHasMouseFocus = true;
-						break;
-					case SDL_WINDOWEVENT_LEAVE:
-						CGameProcedure::s_bWindowHasMouseFocus = false;
-						break;
-				}
-			} break;
-
-			case SDL_SYSWMEVENT: {
-				// TEMP: until things become less window's dependent
-				WndProcMain(uSDLEvents.syswm.msg->msg.win.hwnd,
-					uSDLEvents.syswm.msg->msg.win.msg,
-					uSDLEvents.syswm.msg->msg.win.wParam,
-					uSDLEvents.syswm.msg->msg.win.lParam
-				);
-			} break;
+			if (m_byCurKeys[i]) m_bNoKeyDown = FALSE;
 		}
 	}
+	//	}
 
-	m_bNoKeyDown = TRUE;
-	for(int i=0; i<NUMDIKEYS; ++i) {
-		if(!m_byOldKeys[i] && m_byCurKeys[i]) m_bKeyPresses[i] = TRUE;
-		else m_bKeyPresses[i] = FALSE;
-		
-		if(m_byOldKeys[i] && !m_byCurKeys[i]) m_bKeyPresseds[i] = TRUE;
-		else m_bKeyPresseds[i] = FALSE;
+		///////////////////////
+		//  MOUSE
+		///////////////////////
+	//	if(m_bMouse)
+	//	{
+	//		DIMOUSESTATE DIMState;
+	//		err = m_lpDIDMouse->GetDeviceState(sizeof(DIMState), &DIMState); // ���콺 ���� ��� - �̻�Ÿ.. �ڲ�.. ������..
+	//		if(err != DI_OK)
+	//		{
+	//			AcquireMouse();
+	//			return;
+	//		}
 
-		if(m_byCurKeys[i]) m_bNoKeyDown = FALSE;
+			// ���콺 ��ġ ���� ��������
+	//		m_ptCurMouse.x += DIMState.lX;
+	//		m_ptCurMouse.y += DIMState.lY;
+
+	//		if((DIMState.rgbButtons[0] & 0x80)) m_bLBDown = TRUE; 
+	//		else m_bLBDown = FALSE;
+	//		if((DIMState.rgbButtons[1] & 0x80)) m_bRBDown = TRUE;
+	//		else m_bRBDown = FALSE;
+
+			// clamp non-free mouse values to limits
+	//		if (m_ptCurMouse.x >= m_rcMLimit.right)
+	//			m_ptCurMouse.x = m_rcMLimit.right-1;
+	//
+	//		if (m_ptCurMouse.y >= m_rcMLimit.bottom)
+	//			m_ptCurMouse.y = m_rcMLimit.bottom-1;
+	//
+	//		if (m_ptCurMouse.x < m_rcMLimit.left)
+	//			m_ptCurMouse.x = m_rcMLimit.left;
+	//
+	//		if (m_ptCurMouse.y < m_rcMLimit.top)
+	//			m_ptCurMouse.y = m_rcMLimit.top;
+
+	m_ptOldMouse = m_ptCurMouse; // �ϴ� ���� �� ����...
+
+	RECT rcClient;
+	::GetClientRect(m_hWnd, &rcClient);
+	::GetCursorPos(&m_ptCurMouse); // �� �̻��ؼ�... �׳� �ý��� ���콺 Ŀ�� ��ġ ��������
+	::ScreenToClient(m_hWnd, &m_ptCurMouse); // Ŭ���̾�Ʈ �������� ��ȯ
+
+	if (PtInRect(&rcClient, m_ptCurMouse) == FALSE) //  || GetFocus() != m_hWnd) // ��ũ�� ���� �ۿ� �ְų� ��Ŀ���� ������ ������..
+	{
 	}
+	else
+	{
+		// ���콺 ��ư ���� ����.
+		m_nMouseFlagOld = m_nMouseFlag;
+		m_nMouseFlag = 0;
 
-	if((m_nMouseFlagOld & MOUSE_LBDOWN) == FALSE && (m_nMouseFlag & MOUSE_LBDOWN)) m_nMouseFlag |= MOUSE_LBCLICK;
-	if((m_nMouseFlagOld & MOUSE_MBDOWN) == FALSE && (m_nMouseFlag & MOUSE_MBDOWN)) m_nMouseFlag |= MOUSE_MBCLICK;
-	if((m_nMouseFlagOld & MOUSE_RBDOWN) == FALSE && (m_nMouseFlag & MOUSE_RBDOWN)) m_nMouseFlag |= MOUSE_RBCLICK;
-	
-	if((m_nMouseFlagOld & MOUSE_LBDOWN) && (m_nMouseFlag & MOUSE_LBDOWN) == FALSE) m_nMouseFlag |= MOUSE_LBCLICKED;
-	if((m_nMouseFlagOld & MOUSE_MBDOWN) && (m_nMouseFlag & MOUSE_MBDOWN) == FALSE) m_nMouseFlag |= MOUSE_MBCLICKED;
-	if((m_nMouseFlagOld & MOUSE_RBDOWN) && (m_nMouseFlag & MOUSE_RBDOWN) == FALSE) m_nMouseFlag |= MOUSE_RBCLICKED;
-	
-	static uint32_t dwDblClk = GetDoubleClickTime();
+		// ���콺 ���� ��������
+		if (_IsKeyDown(VK_LBUTTON)) m_nMouseFlag |= MOUSE_LBDOWN;
+		if (_IsKeyDown(VK_MBUTTON)) m_nMouseFlag |= MOUSE_MBDOWN;
+		if (_IsKeyDown(VK_RBUTTON)) m_nMouseFlag |= MOUSE_RBDOWN;
 
-	if(m_nMouseFlag & MOUSE_LBCLICKED) {
-		static uint32_t dwCLicked = 0;
-		if(timeGetTime() < dwCLicked + dwDblClk)
-			m_nMouseFlag |= MOUSE_LBDBLCLK;
-		dwCLicked = timeGetTime();
+		// ��ư Ŭ�� ����..
+		if ((m_nMouseFlagOld & MOUSE_LBDOWN) == FALSE && (m_nMouseFlag & MOUSE_LBDOWN)) m_nMouseFlag |= MOUSE_LBCLICK;
+		if ((m_nMouseFlagOld & MOUSE_MBDOWN) == FALSE && (m_nMouseFlag & MOUSE_MBDOWN)) m_nMouseFlag |= MOUSE_MBCLICK;
+		if ((m_nMouseFlagOld & MOUSE_RBDOWN) == FALSE && (m_nMouseFlag & MOUSE_RBDOWN)) m_nMouseFlag |= MOUSE_RBCLICK;
+
+		// ��ư���� ���� ����
+		if ((m_nMouseFlagOld & MOUSE_LBDOWN) && (m_nMouseFlag & MOUSE_LBDOWN) == FALSE) m_nMouseFlag |= MOUSE_LBCLICKED;
+		if ((m_nMouseFlagOld & MOUSE_MBDOWN) && (m_nMouseFlag & MOUSE_MBDOWN) == FALSE) m_nMouseFlag |= MOUSE_MBCLICKED;
+		if ((m_nMouseFlagOld & MOUSE_RBDOWN) && (m_nMouseFlag & MOUSE_RBDOWN) == FALSE) m_nMouseFlag |= MOUSE_RBCLICKED;
+
+		static DWORD dwDblClk = GetDoubleClickTime(); // �������� ���� Ŭ���ð��� ��������..
+		if (m_nMouseFlag & MOUSE_LBCLICKED) // ���� ���� Ŭ�� ����
+		{
+			static DWORD dwCLicked = 0;
+			if (timeGetTime() < dwCLicked + dwDblClk)
+				m_nMouseFlag |= MOUSE_LBDBLCLK;
+			dwCLicked = timeGetTime();
+		}
+		if (m_nMouseFlag & MOUSE_MBCLICKED) // ���� ���� Ŭ�� ����
+		{
+			static DWORD dwCLicked = 0;
+			if (timeGetTime() < dwCLicked + dwDblClk)
+				m_nMouseFlag |= MOUSE_MBDBLCLK;
+			dwCLicked = timeGetTime();
+		}
+		if (m_nMouseFlag & MOUSE_RBCLICKED) // ���� ���� Ŭ�� ����
+		{
+			static DWORD dwCLicked = 0;
+			if (timeGetTime() < dwCLicked + dwDblClk)
+				m_nMouseFlag |= MOUSE_RBDBLCLK;
+			dwCLicked = timeGetTime();
+		}
+
+		// �巡�� ���� ó��
+		if (m_nMouseFlag & MOUSE_LBDOWN) { m_rcLBDrag.right = m_ptCurMouse.x; m_rcLBDrag.bottom = m_ptCurMouse.y; }
+		if (m_nMouseFlag & MOUSE_MBDOWN) { m_rcMBDrag.right = m_ptCurMouse.x; m_rcMBDrag.bottom = m_ptCurMouse.y; }
+		if (m_nMouseFlag & MOUSE_RBDOWN) { m_rcRBDrag.right = m_ptCurMouse.x; m_rcRBDrag.bottom = m_ptCurMouse.y; }
+		if (m_nMouseFlag & MOUSE_LBCLICK) { m_rcLBDrag.left = m_ptCurMouse.x; m_rcLBDrag.top = m_ptCurMouse.y; }
+		if (m_nMouseFlag & MOUSE_MBCLICK) { m_rcMBDrag.left = m_ptCurMouse.x; m_rcMBDrag.top = m_ptCurMouse.y; }
+		if (m_nMouseFlag & MOUSE_RBCLICK) { m_rcRBDrag.left = m_ptCurMouse.x; m_rcRBDrag.top = m_ptCurMouse.y; }
 	}
-
-	if(m_nMouseFlag & MOUSE_MBCLICKED) {
-		static uint32_t dwCLicked = 0;
-		if(timeGetTime() < dwCLicked + dwDblClk)
-			m_nMouseFlag |= MOUSE_MBDBLCLK;
-		dwCLicked = timeGetTime();
-	}
-
-	if(m_nMouseFlag & MOUSE_RBCLICKED) {
-		static uint32_t dwCLicked = 0;
-		if(timeGetTime() < dwCLicked + dwDblClk)
-			m_nMouseFlag |= MOUSE_RBDBLCLK;
-		dwCLicked = timeGetTime();
-	}
-
-	if(m_nMouseFlag & MOUSE_LBDOWN)  {m_rcLBDrag.right = m_ptCurMouse.x; m_rcLBDrag.bottom = m_ptCurMouse.y;}
-	if(m_nMouseFlag & MOUSE_MBDOWN)  {m_rcMBDrag.right = m_ptCurMouse.x; m_rcMBDrag.bottom = m_ptCurMouse.y;}
-	if(m_nMouseFlag & MOUSE_RBDOWN)  {m_rcRBDrag.right = m_ptCurMouse.x; m_rcRBDrag.bottom = m_ptCurMouse.y;}
-	if(m_nMouseFlag & MOUSE_LBCLICK) {m_rcLBDrag.left  = m_ptCurMouse.x; m_rcLBDrag.top    = m_ptCurMouse.y;}
-	if(m_nMouseFlag & MOUSE_MBCLICK) {m_rcMBDrag.left  = m_ptCurMouse.x; m_rcMBDrag.top    = m_ptCurMouse.y;}
-	if(m_nMouseFlag & MOUSE_RBCLICK) {m_rcRBDrag.left  = m_ptCurMouse.x; m_rcRBDrag.top    = m_ptCurMouse.y;}
 }

@@ -650,7 +650,7 @@ bool CUITradeSellBBS::OnKeyPress(int iKey)
 {
 	switch(iKey)
 	{
-	case SDL_SCANCODE_ESCAPE://DIK_ESCAPE:
+	case DIK_ESCAPE:
 		SetVisible(false);
 		return true;
 	}

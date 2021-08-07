@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -23,6 +24,18 @@ namespace UIEditor
         public MainWindow()
         {
             InitializeComponent();
+            Loaded += OnLoaded;
+            CompositionTarget.Rendering += Loop;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            
+        }
+
+        private void Loop(object sender, EventArgs e)
+        {
+            
         }
     }
 }

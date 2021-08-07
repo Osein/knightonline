@@ -4,9 +4,26 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UIEditor"
+        xmlns:enginerendersurface="clr-namespace:UIEditor.EngineRenderSurface"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="1080" Width="1920
+        ">
     <Grid>
+        <DockPanel>
+            <TreeView Width="200" Name="TreeView1" VerticalAlignment="Stretch" DockPanel.Dock="Left">
+                <TreeViewItem Header="Cold Drinks" IsExpanded="True" FontSize="10">
+                    <TreeViewItem Header="Coke"></TreeViewItem>
+                    <TreeViewItem Header="Pepsi"></TreeViewItem>
+                    <TreeViewItem Header="Orange Juice"></TreeViewItem>
+                    <TreeViewItem Header="Milk"></TreeViewItem>
+                    <TreeViewItem Header="Iced Tea" FontSize="10"></TreeViewItem>
+                    <TreeViewItem Header="Mango Shake"></TreeViewItem>
+                </TreeViewItem>
+            </TreeView>
+            <Viewbox Width="100" DockPanel.Dock="Right">
 
+            </Viewbox>
+            <enginerendersurface:EngineRenderSurface />
+        </DockPanel>
     </Grid>
 </Window>

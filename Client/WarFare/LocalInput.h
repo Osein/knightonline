@@ -9,7 +9,7 @@ const int DK_NONE = 0;
 const int DK_RELEASE = 1;
 const int DK_PRESS = 2;
 const int DK_REPEAT = 4;
-const int NUMDIKEYS = SDL_NUM_SCANCODES;//282;
+const int NUMDIKEYS = 282;
 
 // 마우스 플래그 - 한개 이상의 플래그가 OR 연산으로 조합되어 있다..
 const int MOUSE_LBCLICK		= 0x1;
@@ -32,20 +32,20 @@ const int MOUSE_RBDBLCLK	= 0x800;
 class CLocalInput
 {
 private:
-	//void AcquireMouse();
-	//void UnacquireMouse();
-	//void AcquireKeyboard();
-	//void UnacquireKeyboard();
+	void AcquireMouse();
+	void UnacquireMouse();
+	void AcquireKeyboard();
+	void UnacquireKeyboard();
 
 protected:
-	//LPDIRECTINPUT8			m_lpDI;
-	//LPDIRECTINPUTDEVICE8	m_lpDIDKeyboard;
-//	LPDIRECTINPUTDEVICE8	m_lpDIDMouse;
+	LPDIRECTINPUT8			m_lpDI;
+	LPDIRECTINPUTDEVICE8	m_lpDIDKeyboard;
+	LPDIRECTINPUTDEVICE8	m_lpDIDMouse;
 
-	//SDL_Window* m_hWnd;
+	HWND m_hWnd;
 
-//	BOOL m_bMouse;
-//	BOOL m_bKeyboard;
+	BOOL m_bMouse;
+	BOOL m_bKeyboard;
 
 	int m_nMouseFlag, m_nMouseFlagOld; // 마우스 버튼 눌림 플래그
 	uint32_t m_dwTickLBDown; // 마우스 왼쪽 버튼 더블 클릭 감지용
@@ -87,7 +87,7 @@ public:
 	BOOL IsKeyPress(int iIndex) { if(iIndex < 0 || iIndex >= NUMDIKEYS) return FALSE; return m_bKeyPresses[iIndex]; } // 키보드를 누르는 순간... "DInput.h" 에 정의 되어 있는 DIK_???? 스캔코드를 참조..
 	BOOL IsKeyPressed(int iIndex) { if(iIndex < 0 || iIndex >= NUMDIKEYS) return FALSE; return m_bKeyPresseds[iIndex]; } // 키보드를 누르고나서 떼는 순간... "DInput.h" 에 정의 되어 있는 DIK_???? 스캔코드를 참조..
 	
-	BOOL Init(SDL_Window* pWindow, BOOL bActivateKeyboard= TRUE, BOOL bActivateMouse = TRUE, BOOL ExclusiveMouseAccess = TRUE );
+	BOOL Init(HINSTANCE hInst, HWND pWindow, BOOL bActivateKeyboard= TRUE, BOOL bActivateMouse = TRUE, BOOL ExclusiveMouseAccess = TRUE );
 
 	void Tick(void);
 	void KeyboardFlushData();

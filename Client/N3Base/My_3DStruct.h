@@ -1094,19 +1094,7 @@ const uint32_t OBJ_DUMMY					= 0x10000000;
 const uint32_t OBJ_EFFECT					= 0x20000000;
 const uint32_t OBJ_ANIM_CONTROL			= 0x40000000;
 
-
-
-
-
-
-
-
-
-
-
-
 #include "CrtDbg.h"
-#include "SDL2/SDL.h"
 
 #ifndef _DEBUG
 //#define __ASSERT(expr, expMessage) SDL_assert(expr)

@@ -1,10 +1,9 @@
-/*
+ï»¿/*
 */
 #include "pch.h"
 #include "N3Eng.h"
 #include "N3Light.h"
 #include "LogWriter.h"
-#include "SDL2/SDL_syswm.h"
 
 //-----------------------------------------------------------------------------
 CN3Eng::CN3Eng(void)
@@ -35,8 +34,15 @@ CN3Eng::CN3Eng(void)
 		exit(-1);
 	}
 
-	if(s_szPath.empty())
-		PathSet(SDL_GetBasePath());
+	if (s_szPath.empty())
+	{
+		char szPath[256];
+		char szDrive[_MAX_DRIVE], szDir[_MAX_DIR];
+		::GetModuleFileName(NULL, szPath, 256);
+		_splitpath(szPath, szDrive, szDir, NULL, NULL);
+		sprintf(szPath, "%s%s", szDrive, szDir);
+		this->PathSet(szPath);
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -154,7 +160,7 @@ void CN3Eng::LookAt(__Vector3 &vEye, __Vector3 &vAt, __Vector3 &vUp)
 }
 
 //-----------------------------------------------------------------------------
-bool CN3Eng::Reset(bool bWindowed, Uint32 dwWidth, Uint32 dwHeight, Uint32 dwBPP)
+bool CN3Eng::Reset(bool bWindowed, uint32_t dwWidth, uint32_t dwHeight, uint32_t dwBPP)
 {
 	if (s_lpD3DDev == NULL) return false;
 	if (dwWidth <= 0 || dwHeight <= 0) return false;
@@ -247,58 +253,23 @@ void CN3Eng::SetProjection(float fNear, float fFar, float fLens, float fAspect)
 
 //-----------------------------------------------------------------------------
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//-----------------------------------------------------------------------------
-bool CN3Eng::Init(BOOL bWindowed, SDL_Window* pWindow, uint32_t dwWidth, uint32_t dwHeight, uint32_t dwBPP, BOOL bUseHW)
+bool CN3Eng::InitEx(BOOL bWindowed)
 {
-	/*
-	SDL_Renderer* s_pSDLRenderer;
+	return true;
+}
 
-	s_pSDLRenderer = SDL_CreateRenderer(
-		pWindow, -1,
-		SDL_RENDERER_ACCELERATED|
-		SDL_RENDERER_PRESENTVSYNC
-	);
+bool CN3Eng::Init(BOOL bWindowed, HWND pWindow, uint32_t dwWidth, uint32_t dwHeight, uint32_t dwBPP, BOOL bUseHW)
+{
+	memset(&s_ResrcInfo, 0, sizeof(__ResrcInfo)); // Rendering Information ÃƒÃŠÂ±Ã¢ÃˆÂ­..
 
-	if(s_pSDLRenderer == NULL) {
-		fprintf(stderr, "ER: %s\n", SDL_GetError());
-		exit(-1);
-	}
-
-	s_lpD3DDev = SDL_RenderGetD3D9Device(s_pSDLRenderer);
-	s_lpD3DDev->GetDirect3D(&m_lpD3D);
-	*/
-
-	//
-
-	memset(&s_ResrcInfo, 0, sizeof(__ResrcInfo)); // Rendering Information ÃÊ±âÈ­..
-
-	SDL_SysWMinfo info;
-	SDL_VERSION(&info.version);
-	SDL_GetWindowWMInfo(pWindow, &info);
-
-	s_hWndBase = info.info.win.window; // TODO: Remove this when we move away from DX
-	s_pWindow = pWindow;
+	s_hWndBase = pWindow; // TODO: Remove this when we move away from DX
 
 	// FIX (srmeier): I really have no idea what the second arguement here should be
-	int nAMC = m_lpD3D->GetAdapterModeCount(0, D3DFMT_X8R8G8B8); // µğ½ºÇÃ·¹ÀÌ ¸ğµå Ä«¿îÆ®
+	int nAMC = m_lpD3D->GetAdapterModeCount(0, D3DFMT_X8R8G8B8); // ÂµÃ°Â½ÂºÃ‡ÃƒÂ·Â¹Ã€ÃŒ Â¸Ã°ÂµÃ¥ Ã„Â«Â¿Ã®Ã†Â®
 	if(nAMC <= 0)
 	{
 		//MessageBox(hWnd, "Can't create D3D - Invalid display mode property.", "initialization", MB_OK);
-//		{ for(int iii = 0; iii < 2; iii++) Beep(2000, 200); Sleep(300); } // ¿©·¯¹ø »à~
+//		{ for(int iii = 0; iii < 2; iii++) Beep(2000, 200); Sleep(300); } // Â¿Â©Â·Â¯Â¹Ã¸ Â»Ã ~
 #ifdef _N3GAME
 		CLogWriter::Write("Can't create D3D - Invalid display mode property.");
 #endif
@@ -316,7 +287,7 @@ bool CN3Eng::Init(BOOL bWindowed, SDL_Window* pWindow, uint32_t dwWidth, uint32_
 	for(int i = 0; i < nAMC; i++)
 	{
 		// FIX (srmeier): I really have no idea what the second arguement here should be
-		m_lpD3D->EnumAdapterModes(0, D3DFMT_X8R8G8B8, i, &m_DeviceInfo.pModes[i]); // µğ½ºÇÃ·¹ÀÌ ¸ğµå °¡Á®¿À±â..
+		m_lpD3D->EnumAdapterModes(0, D3DFMT_X8R8G8B8, i, &m_DeviceInfo.pModes[i]); // ÂµÃ°Â½ÂºÃ‡ÃƒÂ·Â¹Ã€ÃŒ Â¸Ã°ÂµÃ¥ Â°Â¡ÃÂ®Â¿Ã€Â±Ã¢..
 	}
 
 	D3DDEVTYPE DevType = D3DDEVTYPE_REF;
@@ -330,7 +301,7 @@ bool CN3Eng::Init(BOOL bWindowed, SDL_Window* pWindow, uint32_t dwWidth, uint32_
 	s_DevParam.PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;
 
 	D3DFORMAT BBFormat = D3DFMT_UNKNOWN;
-	if(TRUE == bWindowed) // À©µµ¿ì ¸ğµåÀÏ °æ¿ì
+	if(TRUE == bWindowed) // Ã€Â©ÂµÂµÂ¿Ã¬ Â¸Ã°ÂµÃ¥Ã€Ã Â°Ã¦Â¿Ã¬
 	{
 		D3DDISPLAYMODE dm;
 		m_lpD3D->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &dm);
@@ -343,7 +314,7 @@ bool CN3Eng::Init(BOOL bWindowed, SDL_Window* pWindow, uint32_t dwWidth, uint32_
 	else
 	{
 		s_DevParam.BackBufferCount = 1;
-		s_DevParam.AutoDepthStencilFormat = D3DFMT_D16; // ÀÚµ¿ »ı¼ºÀÌ¸é ¹«½ÃµÈ´Ù.
+		s_DevParam.AutoDepthStencilFormat = D3DFMT_D16; // Ã€ÃšÂµÂ¿ Â»Ã½Â¼ÂºÃ€ÃŒÂ¸Ã© Â¹Â«Â½ÃƒÂµÃˆÂ´Ã™.
 		if(16 == dwBPP) BBFormat = D3DFMT_R5G6B5;
 		else if(24 == dwBPP) BBFormat = D3DFMT_R8G8B8;
 		else if(32 == dwBPP) BBFormat = D3DFMT_X8R8G8B8;
@@ -353,7 +324,7 @@ bool CN3Eng::Init(BOOL bWindowed, SDL_Window* pWindow, uint32_t dwWidth, uint32_
 	s_DevParam.BackBufferWidth = dwWidth;
 	s_DevParam.BackBufferHeight = dwHeight;
 	s_DevParam.BackBufferFormat = BBFormat;
-	s_DevParam.MultiSampleType = D3DMULTISAMPLE_NONE; // Swap Effect °¡ Discard ÇüÅÂ°¡ ¾Æ´Ï¸é ¹İµå½Ã ÀÌ·± ½ÄÀÌ¾î¾ß ÇÑ´Ù.
+	s_DevParam.MultiSampleType = D3DMULTISAMPLE_NONE; // Swap Effect Â°Â¡ Discard Ã‡Ã¼Ã…Ã‚Â°Â¡ Â¾Ã†Â´ÃÂ¸Ã© Â¹ÃÂµÃ¥Â½Ãƒ Ã€ÃŒÂ·Â± Â½Ã„Ã€ÃŒÂ¾Ã®Â¾ÃŸ Ã‡Ã‘Â´Ã™.
 	s_DevParam.Flags = 0;
 //#ifdef _N3TOOL
 	s_DevParam.Flags = D3DPRESENTFLAG_LOCKABLE_BACKBUFFER;
@@ -364,9 +335,9 @@ bool CN3Eng::Init(BOOL bWindowed, SDL_Window* pWindow, uint32_t dwWidth, uint32_
 	{
 //		if(	m_DeviceInfo.pModes[i].Width == dwWidth && 
 //			m_DeviceInfo.pModes[i].Height == dwHeight && 
-		if(	m_DeviceInfo.pModes[i].Format == BBFormat) // ¸ğµå°¡ ÀÏÄ¡ÇÏ¸é
+		if(	m_DeviceInfo.pModes[i].Format == BBFormat) // Â¸Ã°ÂµÃ¥Â°Â¡ Ã€ÃÃ„Â¡Ã‡ÃÂ¸Ã©
 		{
-			this->FindDepthStencilFormat(0, m_DeviceInfo.DevType, m_DeviceInfo.pModes[i].Format, &s_DevParam.AutoDepthStencilFormat); // ±íÀÌ¿Í ½ºÅÙ½Ç ¹öÆÛ¸¦ Ã£´Â´Ù.
+			this->FindDepthStencilFormat(0, m_DeviceInfo.DevType, m_DeviceInfo.pModes[i].Format, &s_DevParam.AutoDepthStencilFormat); // Â±Ã­Ã€ÃŒÂ¿Ã Â½ÂºÃ…Ã™Â½Ã‡ Â¹Ã¶Ã†Ã›Â¸Â¦ ÃƒÂ£Â´Ã‚Â´Ã™.
 			m_nModeActive = i;
 			break;
 		}
@@ -385,7 +356,7 @@ bool CN3Eng::Init(BOOL bWindowed, SDL_Window* pWindow, uint32_t dwWidth, uint32_
 			CLogWriter::Write("Can't create D3D Device - please, check DirectX or display card driver");
 			CLogWriter::Write(szDebug);
 #endif
-//			{ for(int iii = 0; iii < 3; iii++) Beep(2000, 200); Sleep(300); } // ¿©·¯¹ø »à~
+//			{ for(int iii = 0; iii < 3; iii++) Beep(2000, 200); Sleep(300); } // Â¿Â©Â·Â¯Â¹Ã¸ Â»Ã ~
 
 			this->Release();
 			return false;
@@ -396,19 +367,19 @@ bool CN3Eng::Init(BOOL bWindowed, SDL_Window* pWindow, uint32_t dwWidth, uint32_
 	}
 
 
-	// Device Áö¿ø Ç×¸ñÀº??
-	// DXT Áö¿ø ¿©ºÎ..
+	// Device ÃÃ¶Â¿Ã¸ Ã‡Ã—Â¸Ã±Ã€Âº??
+	// DXT ÃÃ¶Â¿Ã¸ Â¿Â©ÂºÃ..
 	s_dwTextureCaps = 0;
 	s_DevCaps.DeviceType = DevType;
 
 	s_lpD3DDev->GetDeviceCaps(&s_DevCaps);
-	if(s_DevCaps.MaxTextureWidth < 256 || s_DevCaps.MaxTextureHeight < 256) // ÅØ½ºÃ³ Áö¿ø Å©±â°¡ 256 ÀÌÇÏ¸é.. ¾Æ¿¹ Æ÷±â..
+	if(s_DevCaps.MaxTextureWidth < 256 || s_DevCaps.MaxTextureHeight < 256) // Ã…Ã˜Â½ÂºÃƒÂ³ ÃÃ¶Â¿Ã¸ Ã…Â©Â±Ã¢Â°Â¡ 256 Ã€ÃŒÃ‡ÃÂ¸Ã©.. Â¾Ã†Â¿Â¹ Ã†Ã·Â±Ã¢..
 	{
 		MessageBox(s_hWndBase, "Can't support this graphic card : Texture size is too small", "Initialization error", MB_OK);
 #ifdef _N3GAME
 		CLogWriter::Write("Can't support this graphic card : Texture size is too small");
 #endif
-//		{ for(int iii = 0; iii < 4; iii++) Beep(2000, 200); Sleep(300); } // ¿©·¯¹ø »à~
+//		{ for(int iii = 0; iii < 4; iii++) Beep(2000, 200); Sleep(300); } // Â¿Â©Â·Â¯Â¹Ã¸ Â»Ã ~
 
 		this->Release();
 		return false;
@@ -423,7 +394,7 @@ bool CN3Eng::Init(BOOL bWindowed, SDL_Window* pWindow, uint32_t dwWidth, uint32_
 	if(s_DevCaps.TextureCaps & D3DPTEXTURECAPS_MIPMAP) s_dwTextureCaps |= TEX_CAPS_MIPMAP;
 	if(s_DevCaps.TextureCaps & D3DPTEXTURECAPS_POW2) s_dwTextureCaps |= TEX_CAPS_POW2;
 
-	// ±âº» ¶óÀÌÆ® Á¤º¸ ÁöÁ¤..
+	// Â±Ã¢ÂºÂ» Â¶Ã³Ã€ÃŒÃ†Â® ÃÂ¤ÂºÂ¸ ÃÃ¶ÃÂ¤..
 	for(int i = 0; i < 8; i++)
 	{
 		CN3Light::__Light Lgt;
@@ -432,13 +403,13 @@ bool CN3Eng::Init(BOOL bWindowed, SDL_Window* pWindow, uint32_t dwWidth, uint32_
 		s_lpD3DDev->SetLight(i, &Lgt);
 	}
 
-	// ±âº» ºä¿Í ÇÁ·ÎÁ§¼Ç ¼³Á¤.
+	// Â±Ã¢ÂºÂ» ÂºÃ¤Â¿Ã Ã‡ÃÂ·ÃÃÂ§Â¼Ã‡ Â¼Â³ÃÂ¤.
 	this->LookAt(__Vector3(5,5,-10), __Vector3(0,0,0), __Vector3(0,1,0));
 	this->SetProjection(0.1f, 256.0f, D3DXToRadian(45.0f), (float)dwHeight/dwWidth);
 	
 	RECT rcView = { 0, 0, (int)dwWidth, (int)dwHeight };
 	this->SetViewPort(rcView);
-	this->SetDefaultEnvironment(); // ±âº» »óÅÂ·Î ¼³Á¤..
+	this->SetDefaultEnvironment(); // Â±Ã¢ÂºÂ» Â»Ã³Ã…Ã‚Â·Ã Â¼Â³ÃÂ¤..
 
 	return true;
 }
@@ -486,39 +457,12 @@ BOOL CN3Eng::FindDepthStencilFormat(UINT iAdapter, D3DDEVTYPE DeviceType, D3DFOR
     return FALSE;
 }
 
-
 void CN3Eng::Present(HWND hWnd, RECT* pRC)
 {
-//	HRESULT rval = s_lpD3DDev->TestCooperativeLevel();
-//	if(D3D_OK != rval)
-//	{
-//#if _DEBUG
-//		char szDebug[256];
-//		D3DXGetErrorString(rval, szDebug, 256);
-//#endif
-//		return;
-//	}
-
-	/*
-	RECT rc;
-	if(s_DevParam.Windowed) // À©µµ¿ì ¸ğµå¸é...
-	{
-		GetClientRect(s_hWndBase, &rc);
-		pRC = &rc;
-	}
-	*/
-
-
-
-
-	//SDL_Renderer* s_pRenderer = SDL_GetRenderer(pWindow);
-	//SDL_RenderPresent(s_pRenderer);
-
-	
 	HRESULT rval = s_lpD3DDev->Present(pRC, pRC, hWnd, NULL);
 	if(D3D_OK == rval)
 	{
-		//s_hWndPresent = hWnd; // Present window handle À» ÀúÀåÇØ ³õ´Â´Ù.
+		s_hWndPresent = hWnd; // Present window handle Ã€Â» Ã€ÃºÃ€Ã¥Ã‡Ã˜ Â³ÃµÂ´Ã‚Â´Ã™.
 	}
 	else if(D3DERR_DEVICELOST == rval || D3DERR_DEVICENOTRESET == rval)
 	{
@@ -526,10 +470,9 @@ void CN3Eng::Present(HWND hWnd, RECT* pRC)
 		if(D3D_OK != rval)
 		{
 #ifdef _N3GAME
-//			char szErr[256];
-//			D3DXGetErrorString(rval, szErr, 256);
-//			CLogWriter::Write("CNEng::Present - device present failed (%s)", szErr);
-//			Beep(2000, 50);
+			HRESULT hr;
+			CLogWriter::Write("CNEng::Present - device present failed (%s)", DXGetErrorDescription(hr));
+			Beep(2000, 50);
 #endif
 		}
 		else
@@ -541,34 +484,15 @@ void CN3Eng::Present(HWND hWnd, RECT* pRC)
 	else
 	{
 #ifdef _N3GAME
-//		char szErr[256];
-//		D3DXGetErrorString(rval, szErr, 256);
-//		CLogWriter::Write("CNEng::Present - device present failed (%s)", szErr);
-//		Beep(2000, 50);
+		HRESULT hr;
+		CLogWriter::Write("CNEng::Present - device present failed (%s)", DXGetErrorDescription(hr));
+		Beep(2000, 50);
 #endif
 	}
 	
-
-	////////////////////////////////////////////////////////////////////////////////
-	// ÇÁ·¹ÀÓ À² ÃøÁ¤...
-//	float fTime = CN3Base::TimerProcess(TIMER_GETABSOLUTETIME);
-//	static float fTimePrev = fTime - 0.03333f;
-//	static uint32_t dwFrm = 0;
-//	dwFrm++;
-//	if(fTime - fTimePrev > 1.0f) // 1 ÃÊ ÀÌ»ó Áö³ª¾ß ÇÁ·¹ÀÓ ÃøÁ¤ÇÑ´Ù.. ±×·¸Áö ¾ÊÀ¸¸é µéÂß ³¯Âß ÇÑ ¼öÄ¡°¡ ³ª¿Â´Ù..
-//	{
-//		s_fFrmPerSec = (float)dwFrm / (fTime - fTimePrev);
-//		dwFrm = 0;
-//		fTimePrev = fTime;
-//	}
-
 	s_fSecPerFrm = CN3Base::TimerProcess(TIMER_GETELAPSEDTIME);
-	if(s_fSecPerFrm <= 0.001f || s_fSecPerFrm >= 1.0f) s_fSecPerFrm = 0.033333f; // ³Ê¹« ¾È³ª¿À¸é ±âº» °ªÀÎ 30 ÇÁ·¹ÀÓÀ¸·Î ¸ÂÃá´Ù..
-	s_fFrmPerSec = 1.0f / s_fSecPerFrm; // ÃÊ´ç ÇÁ·¹ÀÓ ¼ö ÃøÁ¤..
-
-//	fTimePrev = fTime;
-	// ÇÁ·¹ÀÓ À² ÃøÁ¤...
-	////////////////////////////////////////////////////////////////////////////////
+	if(s_fSecPerFrm <= 0.001f || s_fSecPerFrm >= 1.0f) s_fSecPerFrm = 0.033333f;
+	s_fFrmPerSec = 1.0f / s_fSecPerFrm;
 }
 
 #ifdef _N3TOOL
@@ -583,7 +507,7 @@ void CN3Eng::Present(HWND hWnd, RECT* pRC) {
 	HRESULT rval = s_lpD3DDev->Present(pRC, pRC, hWnd, NULL);
 	if (D3D_OK == rval)
 	{
-		s_hWndPresent = hWnd; // Present window handle À» ÀúÀåÇØ ³õ´Â´Ù.
+		s_hWndPresent = hWnd; // Present window handle Ã€Â» Ã€ÃºÃ€Ã¥Ã‡Ã˜ Â³ÃµÂ´Ã‚Â´Ã™.
 	}
 	else if (D3DERR_DEVICELOST == rval || D3DERR_DEVICENOTRESET == rval)
 	{
@@ -602,15 +526,15 @@ void CN3Eng::Present(HWND hWnd, RECT* pRC) {
 	}
 
 	s_fSecPerFrm = CN3Base::TimerProcess(TIMER_GETELAPSEDTIME);
-	if (s_fSecPerFrm <= 0.001f || s_fSecPerFrm >= 1.0f) s_fSecPerFrm = 0.033333f; // ³Ê¹« ¾È³ª¿À¸é ±âº» °ªÀÎ 30 ÇÁ·¹ÀÓÀ¸·Î ¸ÂÃá´Ù..
-	s_fFrmPerSec = 1.0f / s_fSecPerFrm; // ÃÊ´ç ÇÁ·¹ÀÓ ¼ö ÃøÁ¤..
+	if (s_fSecPerFrm <= 0.001f || s_fSecPerFrm >= 1.0f) s_fSecPerFrm = 0.033333f; // Â³ÃŠÂ¹Â« Â¾ÃˆÂ³ÂªÂ¿Ã€Â¸Ã© Â±Ã¢ÂºÂ» Â°ÂªÃ€Ã 30 Ã‡ÃÂ·Â¹Ã€Ã“Ã€Â¸Â·Ã Â¸Ã‚ÃƒÃ¡Â´Ã™..
+	s_fFrmPerSec = 1.0f / s_fSecPerFrm; // ÃƒÃŠÂ´Ã§ Ã‡ÃÂ·Â¹Ã€Ã“ Â¼Ã¶ ÃƒÃ¸ÃÂ¤..
 }
 #endif
 
 void CN3Eng::Clear(D3DCOLOR crFill, RECT* pRC)
 {
 	RECT rc;
-	if(NULL == pRC && s_DevParam.Windowed) // À©µµ¿ì ¸ğµå¸é...
+	if(NULL == pRC && s_DevParam.Windowed) // Ã€Â©ÂµÂµÂ¿Ã¬ Â¸Ã°ÂµÃ¥Â¸Ã©...
 	{
 		GetClientRect(s_hWndBase, &rc);
 
@@ -639,9 +563,9 @@ void CN3Eng::Clear(D3DCOLOR crFill, RECT* pRC)
 
 void CN3Eng::ClearAuto(RECT* pRC)
 {
-	DWORD dwFillColor = D3DCOLOR_ARGB(255,192,192,192); // ±âº»»ö
+	DWORD dwFillColor = D3DCOLOR_ARGB(255,192,192,192); // Â±Ã¢ÂºÂ»Â»Ã¶
 	DWORD dwUseFog = FALSE;
-	s_lpD3DDev->GetRenderState(D3DRS_FOGENABLE, &dwUseFog); // ¾È°³¸¦ ¾²¸é ¹ÙÅÁ»öÀ» ¾È°³»öÀ» ±ò¾ÆÁØ´Ù..
+	s_lpD3DDev->GetRenderState(D3DRS_FOGENABLE, &dwUseFog); // Â¾ÃˆÂ°Â³Â¸Â¦ Â¾Â²Â¸Ã© Â¹Ã™Ã…ÃÂ»Ã¶Ã€Â» Â¾ÃˆÂ°Â³Â»Ã¶Ã€Â» Â±Ã²Â¾Ã†ÃÃ˜Â´Ã™..
 	if(dwUseFog != 0) s_lpD3DDev->GetRenderState(D3DRS_FOGCOLOR, &dwFillColor);
 	else
 	{
@@ -662,7 +586,7 @@ void CN3Eng::ClearAuto(RECT* pRC)
 void CN3Eng::ClearZBuffer(const RECT* pRC)
 {
 	RECT rc;
-	if(NULL == pRC && s_DevParam.Windowed) // À©µµ¿ì ¸ğµå¸é...
+	if(NULL == pRC && s_DevParam.Windowed) // Ã€Â©ÂµÂµÂ¿Ã¬ Â¸Ã°ÂµÃ¥Â¸Ã©...
 	{
 		GetClientRect(s_hWndBase, &rc);
 
