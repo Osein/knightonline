@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "UIEditor": {
-      "commandName": "Project",
-      "nativeDebugging": true
-    }
-  }
-}

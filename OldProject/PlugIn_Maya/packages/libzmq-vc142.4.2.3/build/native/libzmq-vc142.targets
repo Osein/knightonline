@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- ======================================== -->
+  <!-- common -->
+  <!-- ======================================== -->
+  <ItemDefinitionGroup>
+    <!-- include directory -->
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+
+    <!-- definitions -->
+    <ClCompile>
+      <PreprocessorDefinitions>ZMQ_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+
+    <!-- link-in directory -->
+    <Link>
+      <AdditionalLibraryDirectories>$(MSBuildThisFileDirectory)bin;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+
+
+  <!-- ======================================== -->
+  <!-- static libraries x86 -->
+  <!-- ======================================== -->
+  <ItemDefinitionGroup Condition="'$(Platform)' == 'Win32' And ('$(PlatformToolset)' == 'v142' Or '$(PlatformToolset)' == 'CTP_Nov2013') And $(Configuration.IndexOf('Debug')) != -1">
+    <Link>
+      <AdditionalDependencies>libzmq-v142-mt-sgd-4_2_3-x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <ItemDefinitionGroup Condition="'$(Platform)' == 'Win32' And ('$(PlatformToolset)' == 'v142' Or '$(PlatformToolset)' == 'CTP_Nov2013') And $(Configuration.IndexOf('Release')) != -1">
+    <Link>
+      <AdditionalDependencies>libzmq-v142-mt-s-4_2_3-x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+
+
+  <!-- ======================================== -->
+  <!-- static libraries x64 -->
+  <!-- ======================================== -->
+  <ItemDefinitionGroup Condition="'$(Platform)' == 'x64' And ('$(PlatformToolset)' == 'v142' Or '$(PlatformToolset)' == 'CTP_Nov2013') And $(Configuration.IndexOf('Debug')) != -1">
+    <Link>
+      <AdditionalDependencies>libzmq-v142-mt-sgd-4_2_3-x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <ItemDefinitionGroup Condition="'$(Platform)' == 'x64' And ('$(PlatformToolset)' == 'v142' Or '$(PlatformToolset)' == 'CTP_Nov2013') And $(Configuration.IndexOf('Release')) != -1">
+    <Link>
+      <AdditionalDependencies>libzmq-v142-mt-s-4_2_3-x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+
+</Project>

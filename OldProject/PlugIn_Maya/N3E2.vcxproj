@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>N3Export2</ProjectName>
+    <SccProjectName>"$/PlugIn_Maya", PPEAAAAA</SccProjectName>
+    <SccLocalPath>.</SccLocalPath>
+    <ProjectGuid>{3733C698-8C81-4B53-A77F-117F5DA021B3}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <UseOfMfc>Static</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>.\Debug\</OutDir>
+    <IntDir>.\Debug\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+    <ExternalIncludePath>C:\Users\Osein\bin\MayaSDK2018U7\include;$(DXSDK_DIR)\Include;$(ExternalIncludePath)</ExternalIncludePath>
+    <LibraryPath>$(DXSDK_DIR)Lib\x86;C:\Users\Osein\source\repos\KnightOnline\x64\Debug;C:\Users\Osein\bin\MayaSDK2018U7\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <ExternalIncludePath>C:\Users\Osein\bin\MayaSDK2019U3\include;$(DXSDK_DIR)\Include;$(ExternalIncludePath)</ExternalIncludePath>
+    <LibraryPath>$(DXSDK_DIR)Lib\x64;C:\Users\Osein\source\repos\KnightOnline\x64\Debug;C:\Users\Osein\bin\MayaSDK2019U3\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>.\Release\</OutDir>
+    <IntDir>.\Release\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <AdditionalIncludeDirectories>.;..\include;..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;WIN32;_WINDOWS;NT_ENV;NT_PLUGIN;_N3TOOL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\Debug\</AssemblerListingLocation>
+      <BrowseInformation>true</BrowseInformation>
+      <PrecompiledHeaderOutputFile>.\Debug\N3E2.pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>.\Debug\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Debug\</ProgramDataBaseFileName>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>_DEBUG;_N3TOOL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\Debug\N3E2.tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <RedirectOutputAndErrors>NUL</RedirectOutputAndErrors>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Debug\N3E2.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <LinkDLL>true</LinkDLL>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <OutputFile>N3Export2.mll</OutputFile>
+      <ImportLibrary>.\Debug\N3Export2.lib</ImportLibrary>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OpenMaya.lib;N3Base.lib;d3d9.lib;d3dx9.lib;dsound.lib;dxerr.lib;dxguid.lib;winmm.lib;odbc32.lib;odbccp32.lib;nafxcwd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions> /export:initializePlugin  /export:uninitializePlugin </AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;WIN32;_WINDOWS;NT_ENV;NT_PLUGIN;_N3TOOL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\Debug\</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>.\Debug\N3E2.pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>.\Debug\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Debug\</ProgramDataBaseFileName>
+      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>_DEBUG;_N3TOOL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\Debug\N3E2.tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <RedirectOutputAndErrors>NUL</RedirectOutputAndErrors>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Debug\N3E2.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <LinkDLL>true</LinkDLL>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <OutputFile>N3Export2.mll</OutputFile>
+      <ImportLibrary>.\Debug\N3Export2.lib</ImportLibrary>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Windowscodecs.lib;Winspool.lib;UxTheme.lib;legacy_stdio_definitions.lib;N3Base.lib;Foundation.lib;IMFbase.lib;OpenMayaUI.lib;OpenMayaRender.lib;OpenMayaFX.lib;OpenMayaAnim.lib;OpenMaya.lib;MetaData.lib;Image.lib;d3d9.lib;d3dx9.lib;dsound.lib;dxerr.lib;dxguid.lib;winmm.lib;odbc32.lib;odbccp32.lib;nafxcwd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions> /export:initializePlugin  /export:uninitializePlugin </AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <StringPooling>true</StringPooling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <Optimization>MaxSpeed</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <AdditionalIncludeDirectories>.;..\include;..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;WIN32;_WINDOWS;NT_ENV;NT_PLUGIN;_N3TOOL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\Release\</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>.\Release\N3E2.pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>.\Release\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Release\</ProgramDataBaseFileName>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>NDEBUG;_N3TOOL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\Release\N3E2.tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <RedirectOutputAndErrors>NUL</RedirectOutputAndErrors>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Release\N3E2.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <LinkDLL>true</LinkDLL>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>C:\AW\Maya4.0\bin\plug-ins\N3Export2.mll</OutputFile>
+      <ImportLibrary>.\Release\N3Export2.lib</ImportLibrary>
+      <AdditionalLibraryDirectories>..\lib;..\..\..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d8.lib;d3dx8.lib;dsound.lib;dxerr8.lib;dxguid.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions> /export:initializePlugin  /export:uninitializePlugin </AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <StringPooling>true</StringPooling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <Optimization>MaxSpeed</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <AdditionalIncludeDirectories>.;..\include;..\..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NDEBUG;WIN32;_WINDOWS;NT_ENV;NT_PLUGIN;_N3TOOL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\Release\</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>.\Release\N3E2.pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>.\Release\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Release\</ProgramDataBaseFileName>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>NDEBUG;_N3TOOL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\Release\N3E2.tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <RedirectOutputAndErrors>NUL</RedirectOutputAndErrors>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Release\N3E2.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <LinkDLL>true</LinkDLL>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>C:\AW\Maya4.0\bin\plug-ins\N3Export2.mll</OutputFile>
+      <ImportLibrary>.\Release\N3Export2.lib</ImportLibrary>
+      <AdditionalLibraryDirectories>..\lib;..\..\..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d8.lib;d3dx8.lib;dsound.lib;dxerr8.lib;dxguid.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions> /export:initializePlugin  /export:uninitializePlugin </AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\N3BASE\BitMapFile.cpp" />
+    <ClCompile Include="..\N3BASE\LogWriter.cpp" />
+    <ClCompile Include="..\N3Base\N3AlphaPrimitiveManager.cpp" />
+    <ClCompile Include="..\N3Base\N3AnimControl.cpp" />
+    <ClCompile Include="..\N3Base\N3AnimKey.cpp" />
+    <ClCompile Include="..\N3Base\N3Base.cpp" />
+    <ClCompile Include="..\N3Base\N3BaseFileAccess.cpp" />
+    <ClCompile Include="..\N3Base\N3Camera.cpp" />
+    <ClCompile Include="..\N3Base\N3Chr.cpp" />
+    <ClCompile Include="..\N3Base\N3Eng.cpp" />
+    <ClCompile Include="..\N3Base\N3EngTool.cpp" />
+    <ClCompile Include="..\N3BASE\N3FXBundle.cpp" />
+    <ClCompile Include="..\N3BASE\N3FXGroup.cpp" />
+    <ClCompile Include="..\N3BASE\N3FXPartBase.cpp" />
+    <ClCompile Include="..\N3BASE\N3FXPartBillBoard.cpp" />
+    <ClCompile Include="..\N3BASE\N3FXPartBottomBoard.cpp" />
+    <ClCompile Include="..\N3BASE\N3FXParticle.cpp" />
+    <ClCompile Include="..\N3BASE\N3FXPartMesh.cpp" />
+    <ClCompile Include="..\N3BASE\N3FXPartParticles.cpp" />
+    <ClCompile Include="..\N3BASE\N3FXPlug.cpp" />
+    <ClCompile Include="..\N3BASE\N3FXPMesh.cpp" />
+    <ClCompile Include="..\N3BASE\N3FXPMeshInstance.cpp" />
+    <ClCompile Include="..\N3BASE\N3FXShape.cpp" />
+    <ClCompile Include="..\N3Base\N3IMesh.cpp" />
+    <ClCompile Include="..\N3Base\N3Joint.cpp" />
+    <ClCompile Include="..\N3Base\N3Light.cpp" />
+    <ClCompile Include="..\N3Base\N3Mesh.cpp" />
+    <ClCompile Include="..\N3Base\N3PMesh.cpp" />
+    <ClCompile Include="..\N3Base\N3PMeshCreate.cpp" />
+    <ClCompile Include="..\N3Base\N3PMeshInstance.cpp" />
+    <ClCompile Include="..\N3Base\N3Scene.cpp" />
+    <ClCompile Include="..\N3Base\N3Shape.cpp" />
+    <ClCompile Include="..\N3Base\N3Skin.cpp" />
+    <ClCompile Include="..\N3Base\N3Texture.cpp" />
+    <ClCompile Include="..\N3Base\N3Transform.cpp" />
+    <ClCompile Include="..\N3Base\N3TransformCollision.cpp" />
+    <ClCompile Include="..\N3Base\N3VMesh.cpp" />
+    <ClCompile Include="iffreader.cpp" />
+    <ClCompile Include="N3E2Translator.cpp" />
+    <ClCompile Include="N3E2Wrapper.cpp" />
+    <ClCompile Include="pch.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\N3BASE\BitMapFile.h" />
+    <ClInclude Include="..\N3BASE\LogWriter.h" />
+    <ClInclude Include="..\N3Base\My_3DStruct.h" />
+    <ClInclude Include="..\N3Base\N3AlphaPrimitiveManager.h" />
+    <ClInclude Include="..\N3Base\N3AnimControl.h" />
+    <ClInclude Include="..\N3Base\N3AnimKey.h" />
+    <ClInclude Include="..\N3Base\N3Base.h" />
+    <ClInclude Include="..\N3Base\N3BaseFileAccess.h" />
+    <ClInclude Include="..\N3Base\N3Camera.h" />
+    <ClInclude Include="..\N3Base\N3Chr.h" />
+    <ClInclude Include="..\N3Base\N3Eng.h" />
+    <ClInclude Include="..\N3Base\N3EngTool.h" />
+    <ClInclude Include="..\N3BASE\N3FXBundle.h" />
+    <ClInclude Include="..\N3BASE\N3FXDef.h" />
+    <ClInclude Include="..\N3BASE\N3FXGroup.h" />
+    <ClInclude Include="..\N3BASE\N3FXPartBase.h" />
+    <ClInclude Include="..\N3BASE\N3FXPartBillBoard.h" />
+    <ClInclude Include="..\N3BASE\N3FXPartBottomBoard.h" />
+    <ClInclude Include="..\N3BASE\N3FXParticle.h" />
+    <ClInclude Include="..\N3BASE\N3FXPartMesh.h" />
+    <ClInclude Include="..\N3BASE\N3FXPartParticles.h" />
+    <ClInclude Include="..\N3BASE\N3FXPlug.h" />
+    <ClInclude Include="..\N3BASE\N3FXPMesh.h" />
+    <ClInclude Include="..\N3BASE\N3FXPMeshInstance.h" />
+    <ClInclude Include="..\N3BASE\N3FXShape.h" />
+    <ClInclude Include="..\N3Base\N3IMesh.h" />
+    <ClInclude Include="..\N3Base\N3Joint.h" />
+    <ClInclude Include="..\N3Base\N3Light.h" />
+    <ClInclude Include="..\N3Base\N3Mesh.h" />
+    <ClInclude Include="..\N3Base\N3Mng.h" />
+    <ClInclude Include="..\N3Base\N3PMesh.h" />
+    <ClInclude Include="..\N3Base\N3PMeshCreate.h" />
+    <ClInclude Include="..\N3Base\N3PMeshInstance.h" />
+    <ClInclude Include="..\N3Base\N3Scene.h" />
+    <ClInclude Include="..\N3Base\N3Shape.h" />
+    <ClInclude Include="..\N3Base\N3Skin.h" />
+    <ClInclude Include="..\N3Base\N3Texture.h" />
+    <ClInclude Include="..\N3Base\N3Transform.h" />
+    <ClInclude Include="..\N3Base\N3TransformCollision.h" />
+    <ClInclude Include="..\N3Base\N3VMesh.h" />
+    <ClInclude Include="iffreader.h" />
+    <ClInclude Include="N3E2Translator.h" />
+    <ClInclude Include="N3E2Wrapper.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="packages\libzmq-vc142.4.2.3\build\native\libzmq-vc142.targets" Condition="Exists('packages\libzmq-vc142.4.2.3\build\native\libzmq-vc142.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\libzmq-vc142.4.2.3\build\native\libzmq-vc142.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\libzmq-vc142.4.2.3\build\native\libzmq-vc142.targets'))" />
+  </Target>
+</Project>

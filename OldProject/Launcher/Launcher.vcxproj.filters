@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Launcher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LauncherDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="framework.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NButton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CWEBBROWSER2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProgressCtrlST.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BDialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Launcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LauncherDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CWEBBROWSER2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProgressCtrlST.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Launcher.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\Launcher.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\background.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\start_default.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\start_disabled.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\start_hover.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\start_pressed.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\bitmap1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\close_hover.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\close_normal.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\close_pressed.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\homepage_default.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\homepage_disabled.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\homepage_hover.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\homepage_pressed.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\option_default.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\option_disabled.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\option_hover.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\option_pressed.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\progress_active.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\progress_bg.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\Launcher.rc2">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>
