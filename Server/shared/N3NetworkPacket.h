@@ -8,7 +8,14 @@ enum class KnightOnlinePacket {
 
 };
 
-struct N3NetworkPacket;
+struct N3NetworkPacket
+{
+public:
+	KnightOnlinePacket id;
+
+	virtual zmq::message_t toNetworkMessage() = 0;
+	virtual void fromNetworkMessage(zmq::message_t& msg) = 0;
+};
 
 struct N3NetworkPacket_RequestVersion: public N3NetworkPacket {
 	N3NetworkPacket_RequestVersion() {
@@ -31,11 +38,3 @@ public:
 	}
 };
 
-struct N3NetworkPacket
-{
-public:
-	KnightOnlinePacket id;
-
-	virtual zmq::message_t toNetworkMessage() = 0;
-	virtual void fromNetworkMessage(zmq::message_t &msg) = 0;
-};

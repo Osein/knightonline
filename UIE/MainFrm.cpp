@@ -8,7 +8,7 @@
 #include "HierarchyView.h"
 #include "UIEView.h"
 #include "PropertyView.h"
-#include "..\Client\N3Base\N3SndMgr.h"
+#include "..\N3Base\N3SndMgr.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

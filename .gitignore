@@ -60,3 +60,15 @@ Server/shared/Debug
 Server/LoginServer/Debug
 Server/GameServer/Debug
 Server/AIServer/Debug
+/Debug
+/N3Base/Release
+/N3Base/Debug_Tool
+/N3Base/Debug
+/Server/AIServer/Debug_Tool
+/Server/GameServer/Debug_Tool
+/Server/LogInServer/Debug_Tool
+/Server/scripting/Debug_Tool
+/Server/shared/Debug_Tool
+/UIE/Debug_Tool
+/UIE/Debug
+/WarFare/Debug

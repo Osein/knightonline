@@ -8,8 +8,8 @@
 #include "UIEView.h"
 #include "MainFrm.h"
 #include "PropertyView.h"
-#include "..\Client\N3Base\N3UIButton.h"
-#include "..\Client\N3Base\N3SndMgr.h"
+#include "..\N3Base\N3UIButton.h"
+#include "..\N3Base\N3SndMgr.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -723,7 +723,6 @@ void CUIEView::UpdateUIInfo_SelectedRect()
 						pSelectedUI->GetParent()->ResizeAutomaticalyByChild(); // 자동으로 영역 다시 계산..
 					}
 				}
-
 			}
 			break;
 		case RT_MOVE:

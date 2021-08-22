@@ -10,9 +10,6 @@
 /////////////////////////////////////////////////////////////////////////////
 // CPropertyView form view
 
-#ifndef __AFXEXT_H__
-#include <afxext.h>
-#endif
 #include "PropertyList.h"
 
 class CUIEDoc;
