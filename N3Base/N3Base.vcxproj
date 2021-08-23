@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BitMapFile.h" />
     <ClInclude Include="DFont.h" />
     <ClInclude Include="JPEG.H" />
     <ClInclude Include="LogWriter.h" />
@@ -114,6 +115,7 @@
     <ClInclude Include="WaveFile.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BitMapFile.cpp" />
     <ClCompile Include="DFont.cpp" />
     <ClCompile Include="JPEG.cpp" />
     <ClCompile Include="LogWriter.cpp" />
@@ -254,10 +256,11 @@
     <LibraryPath>$(SolutionDir)Bin\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Tool|Win32'">
-    <IncludePath>..\include\;$(DXSDK_DIR)Include;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)Server</IncludePath>
+    <IncludePath>..\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)Server</IncludePath>
     <OutDir>$(SolutionDir)Bin\$(Configuration)\</OutDir>
     <LibraryPath>$(SolutionDir)Bin\$(Configuration);$(LibraryPath)</LibraryPath>
     <TargetName>$(ProjectName)d</TargetName>
+    <ExternalIncludePath>$(DXSDK_DIR)Include;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>..\include\;$(DXSDK_DIR)include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>

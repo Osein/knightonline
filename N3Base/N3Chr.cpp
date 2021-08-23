@@ -1221,7 +1221,7 @@ bool CN3Chr::Load(HANDLE hFile)
 
 	this->Init(); // 에니메이션, 조인트, 플러그등.... 초기화 작업 수행..
 
-	return 0;
+	return true;
 }
 
 __AnimData* CN3Chr::AniDataCur()

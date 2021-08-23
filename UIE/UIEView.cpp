@@ -83,7 +83,8 @@ BOOL CUIEView::PreCreateWindow(CREATESTRUCT& cs)
 {
 	// TODO: Modify the Window class or styles here by modifying
 	//  the CREATESTRUCT cs
-
+	// cs.style = cs.style | BS_OWNERDRAW;
+	cs.style = cs.style | SS_OWNERDRAW;
 	return CView::PreCreateWindow(cs);
 }
 

@@ -49,24 +49,6 @@ CN3Eng::CN3Eng(void)
 CN3Eng::~CN3Eng(void)
 {
 	CN3Base::ReleaseResrc();
-	delete [] m_DeviceInfo.pModes;
-
-	if(s_lpD3DDev)
-	{
-		int nRefCount = s_lpD3DDev->Release();
-
-		if (nRefCount == 0) {
-			s_lpD3DDev = NULL;
-		} else {
-#ifdef _N3GAME
-			CLogWriter::Write("CNEng::~CN3Eng - Device reference count is bigger than 0");
-#endif
-		}
-	}
-
-	if(m_lpD3D) if(m_lpD3D->Release() == 0) m_lpD3D = NULL;
-	if(m_lpDD) m_lpDD->Release(); m_lpDD = NULL;
-
 #ifdef _N3GAME
 	CLogWriter::Close();
 #endif

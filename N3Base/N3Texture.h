@@ -1,45 +1,61 @@
+ï»¿// N3Texture7.h: interface for the CN3Texture class.
+//
+//////////////////////////////////////////////////////////////////////
+
+#if !defined(AFX_N3Texture_h__INCLUDED_)
+#define AFX_N3Texture_h__INCLUDED_
+
+#if _MSC_VER > 1000
 #pragma once
+#endif // _MSC_VER > 1000
 
 #include "N3BaseFileAccess.h"
+#include <string>
 
-class CN3Texture: public CN3BaseFileAccess
+class CN3Texture : public CN3BaseFileAccess
 {
 public:
 	typedef struct __DXT_HEADER
 	{
-		char szID[4]; // "NTF"¼ýÀÚ - Noah Texture File Ver. ?.0
+		char szID[4]; // "NTF"ï¿½ï¿½ï¿½ï¿½ - Noah Texture File Ver. ?.0
 		int nWidth;
 		int nHeight;
-		D3DFORMAT Format; // 0 - ¾ÐÃà ¾ÈÇÔ 1 ~ 5 : D3DFMT_DXT1 ~ D3DFMT_DXT5
+		D3DFORMAT Format; // 0 - ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 1 ~ 5 : D3DFMT_DXT1 ~ D3DFMT_DXT5
 		BOOL bMipMap; // Mip Map ??
 	} __DxtHeader;
-
-	int m_iLOD;
-	uint32_t m_iFileFormatVersion;
 
 protected:
 	__DXT_HEADER m_Header;
 	LPDIRECT3DTEXTURE9 m_lpTexture;
-	std::string		m_szFileName;
 
 public:
 	void				UpdateRenderInfo();
-	bool				LoadFromFile(const std::string& szFileName, uint32_t iVer = 0x00000002);
+	bool				LoadFromFile(const std::string& szFileName, uint32_t iVer = N3FORMAT_VER_DEFAULT);
 	bool				Load(HANDLE hFile);
 	bool				SkipFileHandle(HANDLE hFile);
 
-	std::string FileName() { return m_szFileName; }
+#ifdef _N3TOOL
+	bool				GenerateMipMap(LPDIRECT3DSURFACE9 lpSurf = NULL); // NULL ï¿½Ì¸ï¿½ 0 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ç½ï¿½ï¿½Îºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½..
+	bool				Convert(D3DFORMAT Format, int nWidth = 0, int nHeight = 0, BOOL bGenerateMipMap = TRUE);
+	bool				SaveToFile(); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
+	bool				SaveToFile(const std::string& szFileName); // ï¿½ï¿½ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
+	bool				Save(HANDLE hFile);
+	bool				SaveToBitmapFile(const std::string& szFN); // 24ï¿½ï¿½Æ® ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½Ï·ï¿½ ï¿½ï¿½ï¿½ï¿½..
+	bool				CreateFromSurface(LPDIRECT3DSURFACE9 lpSurf, D3DFORMAT Format, BOOL bGenerateMipMap);
+#endif // end of _N3TOOL
 
 	uint32_t				Width() { return m_Header.nWidth; }
 	uint32_t				Height() { return m_Header.nHeight; }
 	D3DFORMAT			PixelFormat() { return m_Header.Format; }
-	int					MipMapCount() { if(NULL == m_lpTexture) return 0; else return m_lpTexture->GetLevelCount(); }
-	
-	bool				Create(int nWidth, int nHeight, D3DFORMAT Format, BOOL bGenerateMipMap); // ÀåÄ¡¿¡ ¸Â°Ô »ý¼º
+	int					MipMapCount() { if (NULL == m_lpTexture) return 0; else return m_lpTexture->GetLevelCount(); }
+
+	bool				Create(int nWidth, int nHeight, D3DFORMAT Format, BOOL bGenerateMipMap); // ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Â°ï¿½ ï¿½ï¿½ï¿½ï¿½
 	LPDIRECT3DTEXTURE9	Get() { return m_lpTexture; }
 	operator LPDIRECT3DTEXTURE9 () { return m_lpTexture; }
-	
+
 	void Release();
 	CN3Texture();
 	virtual ~CN3Texture();
 };
+
+#endif // !defined(AFX_N3Texture_h__INCLUDED_)

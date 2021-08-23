@@ -1,8 +1,7 @@
 #ifndef __MY_3DSTRUCT_H_
 #define __MY_3DSTRUCT_H_
 
-#include "D3DX9.h"
-#include "D3DX9Math.h"
+#include <d3dx9.h>
 #include <string>
 
 #include "../Server/shared/types.h"
