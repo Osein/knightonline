@@ -178,7 +178,7 @@ public:
 #endif
 	static float					s_fFrmPerSec; // Frame Per Second
 	static float					s_fSecPerFrm; // Second Per Frame = 1.0f/s_fFrmPerSec (Dino가 추가)
-	static CN3SndMgr				s_SndMgr;
+	static class CN3SndMgr				s_SndMgr;
 	
 	static CN3AlphaPrimitiveManager	s_AlphaMgr; // Alpha blend 할 폴리곤들을 관리.. 추가했다가.. 카메라 거리에 맟추어 정렬하고 한꺼번에 그린다..
 

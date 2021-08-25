@@ -195,8 +195,12 @@ bool CN3Eng::Reset(bool bWindowed, uint32_t dwWidth, uint32_t dwHeight, uint32_t
 		}
 	}
 
-	if (D3D_OK != s_lpD3DDev->Reset(&s_DevParam))
+	HRESULT hResetResult = s_lpD3DDev->Reset(&s_DevParam);
+	if (D3D_OK != hResetResult)
 	{
+		auto errorString = DXGetErrorString(hResetResult);
+		auto errorDescription = DXGetErrorDescription(hResetResult);
+
 #ifdef _N3GAME
 		CLogWriter::Write("CNEng::Reset - Insufficient video memory");
 #endif
@@ -309,7 +313,7 @@ bool CN3Eng::Init(BOOL bWindowed, HWND pWindow, uint32_t dwWidth, uint32_t dwHei
 	s_DevParam.MultiSampleType = D3DMULTISAMPLE_NONE; // Swap Effect °¡ Discard ÇüÅÂ°¡ ¾Æ´Ï¸é ¹Ýµå½Ã ÀÌ·± ½ÄÀÌ¾î¾ß ÇÑ´Ù.
 	s_DevParam.Flags = 0;
 //#ifdef _N3TOOL
-	s_DevParam.Flags = D3DPRESENTFLAG_LOCKABLE_BACKBUFFER;
+	//s_DevParam.Flags = D3DPRESENTFLAG_LOCKABLE_BACKBUFFER;
 //#endif // end of _N3TOOL
 
 	int nMC = m_DeviceInfo.nModeCount;
