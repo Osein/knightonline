@@ -18,12 +18,12 @@ bool CDBProcess::Connect(string & szDSN, string & szUser, string & szPass)
 bool CDBProcess::LoadVersionList()
 {
 	std::unique_ptr< sql::Statement > stmt(m_mdbConnection->createStatement());
-	std::unique_ptr< sql::ResultSet > res(stmt->executeQuery("SELECT version, fileUrl FROM versions"));
+	std::unique_ptr< sql::ResultSet > res(stmt->executeQuery("SELECT version, file_url FROM versions"));
 
 	while (res->next()) {
 		_VERSION_INFO* pVersion = new _VERSION_INFO;
 		pVersion->sVersion = res->getUInt("version");
-		pVersion->strFileUrl = res->getString("fileUrl");
+		pVersion->strFileUrl = res->getString("file_url");
 
 		g_pMain->m_VersionList.insert(make_pair(pVersion->strFileUrl, pVersion));
 
